@@ -46,6 +46,8 @@ userRouter.post(
       const phoneNumber = req.body.phoneNumber;
       const telNumber = req.body.telNumber;
       const nicName = req.body.nicName;
+      const gender = req.body.gender;
+      const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${req.body.email}.svg`;
 
       // 위 데이터를 유저 db에 추가하기
       const newUser = await userService.addUser({
@@ -55,6 +57,8 @@ userRouter.post(
         phoneNumber,
         telNumber,
         nicName,
+        gender,
+        profileImgUrl,
       });
 
       // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
