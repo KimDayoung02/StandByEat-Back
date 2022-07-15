@@ -26,6 +26,15 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
+    profileImgUrl: {
+      type: String,
+      required: false,
+    },
+    gender: {
+      type: String,
+      required: false,
+      default: '',
+    },
     role: {
       type: String,
       required: false,
