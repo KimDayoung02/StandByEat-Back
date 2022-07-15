@@ -1,5 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
+import KakaoLogin from './KakaoLogin';
 import Server from './Server';
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Server />
+        {/* <KakaoLogin /> */}
       </header>
     </div>
   );

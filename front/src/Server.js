@@ -8,10 +8,10 @@ export default class Server extends Component {
     };
   }
   componentDidMount = () => {
-    axios.get('/api/users').then((res) => {
+    axios.get('http://localhost:5000/api/users').then((res) => {
       console.log(res);
       this.setState({
-        email: res.data[0].email,
+        email: res.data[1].email,
       });
     });
   };
