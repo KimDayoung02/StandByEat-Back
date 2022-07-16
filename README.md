@@ -57,4 +57,4 @@
 | 박태훈 | BE         |           |
 
 ##### 6. 데이터 설계
-데이터 설계 관련 문서 작성 링크 : [](https://docs.google.com/spreadsheets/d/18wSjjrUqZakAKz6wTBfXr6sPJwrnJSJTrbowwTkci1I/edit?usp=sharing)
+[데이터 설계 관련 문서 작성 링크 :](https://docs.google.com/spreadsheets/d/18wSjjrUqZakAKz6wTBfXr6sPJwrnJSJTrbowwTkci1I/edit?usp=sharing)
