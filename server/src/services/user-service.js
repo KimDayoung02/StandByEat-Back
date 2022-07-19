@@ -8,7 +8,7 @@ class UserService {
   constructor(userModel) {
     this.userModel = userModel;
   }
-
+  // TODO: 회원가입, 로그인, 회원정보 수정, 회원 탈퇴
   // 회원가입
   async addUser(userInfo) {
     // 객체 destructuring
@@ -23,7 +23,7 @@ class UserService {
       profileImgUrl,
     } = userInfo;
 
-    // 아이디 중복 확인
+    // 아이디 중복 확인 -> 아이디가 이미 사용중이라면 true, 반대라면 false
     const user = await this.userModel.findById(id);
 
     if (user) {
@@ -33,7 +33,6 @@ class UserService {
     }
 
     // 아이디 중복은 이제 아니므로, 회원가입을 진행함
-
     // 우선 비밀번호 해쉬화(암호화)
     const hashedPassword = await bcrypt.hash(pw, 10);
 
@@ -54,7 +53,14 @@ class UserService {
     return createdNewUser;
   }
 
-  // // 로그인
+  // TODO: 로그인 성공여부 토큰 받기
+  async getUserToken(loginInfo) {
+    // 로그인 정보에서 순서대로 id와 pw가져옴
+    const { id, pw } = loginInfo;
+
+    let user = await this.userModel.findById(id);
+  }
+  // 로그인
   // async getUserToken(loginInfo) {
   //   // 객체 destructuring
   //   const { email, password } = loginInfo;
@@ -210,9 +216,6 @@ class UserService {
   //   return deleteUser;
   // }
 }
-
-
-
 
 const userService = new UserService(userModel);
 

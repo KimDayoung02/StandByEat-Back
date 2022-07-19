@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import is from '@sindresorhus/is';
-import { loginRequired, errorHandler } from '../middlewares';
-import { userService } from '../services';
-import { body, validationResult } from 'express-validator';
+import { Router } from "express";
+import is from "@sindresorhus/is";
+import { loginRequired, errorHandler } from "../middlewares";
+import { userService } from "../services";
+import { body, validationResult } from "express-validator";
 
 const userRouter = Router();
 
@@ -14,16 +14,11 @@ const validationFunc = (req, res, next) => {
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post(
-  '/register',
+  "/register",
   [
-    body('name', '이름을 입력해 주세요.').trim().notEmpty(),
+    body("name", "이름을 입력해 주세요.").trim().notEmpty(),
 
-    // body('email', '이메일 형식이 올바르지 않습니다.')
-    //   .trim()
-    //   .notEmpty()
-    //   .isEmail(),
-
-    body('pw', '패스워드는 4자리 이상으로 입력해주세요.')
+    body("pw", "패스워드는 4자리 이상으로 입력해주세요.")
       .trim()
       .isLength({ min: 4 }),
 
@@ -35,7 +30,7 @@ userRouter.post(
       // application/json 설정을 프론트에서 안 하면, body가 비어 있게 됨.
       if (is.emptyObject(req.body)) {
         throw new Error(
-          'headers의 Content-Type을 application/json으로 설정해주세요'
+          "headers의 Content-Type을 application/json으로 설정해주세요"
         );
       }
 
@@ -43,7 +38,7 @@ userRouter.post(
       const id = req.body.id;
       const pw = req.body.pw;
       const name = req.body.name;
-      // const email = req.body.email;      
+      // const email = req.body.email;
       const phoneNumber = req.body.phoneNumber;
       // const telNumber = req.body.telNumber;
       const nickName = req.body.nickName;
