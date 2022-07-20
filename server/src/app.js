@@ -3,9 +3,10 @@ import express from 'express';
 let http = require('http');
 let path = require('path');
 
-import { userRouter, packageRouter } from './routers';
+import { userRouter, storeRouter, orderRouter } from './routers';
 
 import { errorHandler } from './middlewares';
+import { orderModel } from './db';
 
 const app = express();
 
@@ -24,7 +25,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', userRouter);
 
-app.use('/api', packageRouter);
+app.use('/api', storeRouter);
+app.use('/api', orderRouter);
 
 let publicPath = path.resolve(__dirname, 'image');
 
