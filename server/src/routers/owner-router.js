@@ -42,7 +42,6 @@ ownerRouter.post(
       const location = req.body.location;
       const stores = req.body.stores;
       const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${req.body.id}.svg`;
-
       // 위 데이터를 유저 db에 추가하기
       const newUser = await ownerService.addUser({
         id,
@@ -116,16 +115,16 @@ ownerRouter.patch(
       const location = req.body.location;
       const stores = req.body.stores;
       const profileImgUrl = req.body.profileImgUrl;
-
+      const pw = req.body.pw;
       // body data로부터, 확인용으로 사용할 현재 비밀번호를 추출함.
-      const pw = req.body.currentPassword;
+      const currentPassword = req.body.currentPassword;
 
       // currentPassword 없을 시, 진행 불가
       if (!pw) {
         throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
       }
 
-      const userInfoRequired = { userId, pw };
+      const userInfoRequired = { userId, currentPassword };
 
       // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
       // 보내주었다면, 업데이트용 객체에 삽입함.
@@ -162,7 +161,7 @@ ownerRouter.delete(
       const userId = req.body.userId;
       const userPassword = req.body.password;
       const inputPassword = req.body.passwordConfirmInput;
-      const deleteuser = await ownerService.DeleteUser(
+      const deleteuser = await ownerService.deleteUser(
         userId,
         userPassword,
         inputPassword

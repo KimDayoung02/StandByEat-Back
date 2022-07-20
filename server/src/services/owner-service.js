@@ -107,11 +107,11 @@ class OwnerService {
     // 이제 드디어 업데이트 시작
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
-    const { password } = toUpdate;
+    const { pw } = toUpdate;
 
-    if (password) {
-      const newPasswordHash = await bcrypt.hash(password, 10);
-      toUpdate.password = newPasswordHash;
+    if (pw) {
+      const newPasswordHash = await bcrypt.hash(pw, 10);
+      toUpdate.pw = newPasswordHash;
     }
 
     // 업데이트 진행
@@ -126,7 +126,7 @@ class OwnerService {
   }
 
   // 유저 삭제
-  async DeleteUser(userId, userPassword, inputPassword) {
+  async deleteUser(userId, userPassword, inputPassword) {
     // 객체 destructuring
     if (userPassword != inputPassword) {
       throw new Error("입력한 비밀번호와 비밀번호 확인값이 일치하지 않습니다.");

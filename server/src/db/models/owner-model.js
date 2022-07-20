@@ -26,7 +26,7 @@ export class OwnerModel {
   }
 
   // 회원 정보를 삭제한다.(회원탈퇴)
-  async deleteuser(filter) {
+  async delete(filter) {
     // filter : 데이터를 찾을 조건
     // json화한 값이어야 한다. ex) {name:"elice"}
     const owner = await Owner.deleteOne(filter);
