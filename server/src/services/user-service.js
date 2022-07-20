@@ -8,7 +8,7 @@ class UserService {
   constructor(userModel) {
     this.userModel = userModel;
   }
-  // TODO: 회원가입, 로그인, 회원정보 수정, 회원 탈퇴
+  // TODO: 회원가입, 로그인(일반, 카카오톡), 회원정보 수정, 회원 탈퇴
   // 회원가입
   async addUser(userInfo) {
     // 객체 destructuring
@@ -53,168 +53,112 @@ class UserService {
     return createdNewUser;
   }
 
-  // TODO: 로그인 성공여부 토큰 받기
+  // TODO: 로그인 성공여부 토큰 받기(일반 로그인)
   async getUserToken(loginInfo) {
     // 로그인 정보에서 순서대로 id와 pw가져옴
     const { id, pw } = loginInfo;
 
+    // id로 가입된 회원이 있는지 확인후 그 회원 정보 가져옴.
     let user = await this.userModel.findById(id);
+    if (!user) {
+      throw new Error(
+        "해당 아이디로 가입 내역이 없습니다. 다시 한번 확인해 주세요."
+      );
+    }
+
+    // db에 저장되어 있는 암호화된 비밀번호
+    const correctPasswordHash = user.pw;
+    // db에 저장된 비밀번호와
+    const isPasswordCorrect = await bcrypt.compare(pw, correctPasswordHash);
+
+    if (!isPasswordCorrect) {
+      throw new Error("비밀번호가 일치하지 않습니다. 다시 한번 확인해 주세요.");
+    }
+
+    // 로그인 성공 시 jwt토큰 생성
+    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    // 2개 프로퍼티를 jwt 토큰에 담음
+    const token = jwt.sign({ userId: user._id }, secretKey);
+    // 코튼을 보내줌.
+    return { token };
   }
-  // 로그인
-  // async getUserToken(loginInfo) {
-  //   // 객체 destructuring
-  //   const { email, password } = loginInfo;
 
-  //   // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
-  //   const user = await this.userModel.findByEmail(email);
-  //   if (!user) {
-  //     throw new Error(
-  //       "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."
-  //     );
-  //   }
-  //   // 이제 이메일은 문제 없는 경우이므로, 비밀번호를 확인함
+  // 유저정보 수정하기, 현재 비밀번호가 있어야 수정 가능함.
+  async setUser(userInfoRequired, toUpdate) {
+    // userInfoRequired-> {id:dasdas,pw:adasd} 이런식의 데이터
+    // toUpdate : 바뀔 회원의 정보.
+    // 객체 destructuring
+    const { userId, currentPassword } = userInfoRequired;
 
-  //   // 비밀번호 일치 여부 확인
-  //   const correctPasswordHash = user.password; // db에 저장되어 있는 암호화된 비밀번호
+    // 우선 해당 id의 유저가 db에 있는지 확인
+    let user = await this.userModel.findById(userId);
 
-  //   // 매개변수의 순서 중요 (1번째는 프론트가 보내온 비밀번호, 2번쨰는 db에 있떤 암호화된 비밀번호)
-  //   const isPasswordCorrect = await bcrypt.compare(
-  //     password,
-  //     correctPasswordHash
-  //   );
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!user) {
+      throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+    }
 
-  //   if (!isPasswordCorrect) {
-  //     throw new Error(
-  //       "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-  //     );
-  //   }
+    // 이제, 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
 
-  //   // 로그인 성공 -> JWT 웹 토큰 생성
-  //   const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    // 비밀번호 일치 여부 확인
+    const correctPasswordHash = user.pw;
+    const isPasswordCorrect = await bcrypt.compare(
+      currentPassword,
+      correctPasswordHash
+    );
 
-  //   // 2개 프로퍼티를 jwt 토큰에 담음
-  //   const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
+    if (!isPasswordCorrect) {
+      throw new Error(
+        "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
+      );
+    }
 
-  //   return { token };
-  // }
+    // 이제 드디어 업데이트 시작
 
-  // // 사용자 목록을 받음.
-  // async getUsers(query) {
-  //   const users = await this.userModel.findAll(query);
-  //   return users;
-  // }
+    // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
+    const { password } = toUpdate;
 
-  // async getPhoneNumber(userPhone) {
-  //   const userphone = await this.userModel.findByPhoneNumber(userPhone);
-  //   return userphone;
-  // }
-  // async getTelNumber(userTel) {
-  //   const usertel = await this.userModel.findByTelNumber(userTel);
-  //   return usertel;
-  // }
+    if (password) {
+      const newPasswordHash = await bcrypt.hash(password, 10);
+      toUpdate.password = newPasswordHash;
+    }
 
-  // // 구현중
-  // async getUserByEmail(email) {
-  //   const user = await this.userModel.findByEmail(email);
+    // 업데이트 진행
+    user = await this.userModel.updateUserInfo(
+      {
+        id: userId,
+      },
+      toUpdate
+    );
 
-  //   if (!user) {
-  //     throw new Error("올바르지 않은 이메일 입니다. 다시 한 번 확인해 주세요.");
-  //   }
-  //   return user;
-  // }
+    return user;
+  }
 
-  // // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  // async setUser(userInfoRequired, toUpdate) {
-  //   // 객체 destructuring
-  //   const { userId, currentPassword } = userInfoRequired;
+  // 유저 삭제
+  async DeleteUser(userId, userPassword, inputPassword) {
+    // 객체 destructuring
+    if (userPassword != inputPassword) {
+      throw new Error("입력한 비밀번호와 비밀번호 확인값이 일치하지 않습니다.");
+    }
 
-  //   // 우선 해당 id의 유저가 db에 있는지 확인
-  //   let user = await this.userModel.findById(userId);
+    let user = await this.userModel.findById(userId);
+    const correctPasswordHash = user.pw;
+    const isPasswordCorrect = await bcrypt.compare(
+      userPassword,
+      correctPasswordHash
+    );
 
-  //   // db에서 찾지 못한 경우, 에러 메시지 반환
-  //   if (!user) {
-  //     throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
-  //   }
+    if (!isPasswordCorrect) {
+      throw new Error(
+        "현재 비밀번호가 일치하지 않습니다. 다시 한번 확인해 주세요."
+      );
+    }
 
-  //   // 이제, 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
+    // db에 저장
+    const deleteUser = await this.userModel.delete(user);
 
-  //   // 비밀번호 일치 여부 확인
-  //   const correctPasswordHash = user.password;
-  //   const isPasswordCorrect = await bcrypt.compare(
-  //     currentPassword,
-  //     correctPasswordHash
-  //   );
-
-  //   if (!isPasswordCorrect) {
-  //     throw new Error(
-  //       "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-  //     );
-  //   }
-
-  //   // 이제 드디어 업데이트 시작
-
-  //   // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
-  //   const { password } = toUpdate;
-
-  //   if (password) {
-  //     const newPasswordHash = await bcrypt.hash(password, 10);
-  //     toUpdate.password = newPasswordHash;
-  //   }
-
-  //   // 업데이트 진행
-  //   user = await this.userModel.update({
-  //     userId,
-  //     update: toUpdate,
-  //   });
-
-  //   return user;
-  // }
-
-  // async setAdmin(userInfoRequired, toUpdate) {
-  //   // 객체 destructuring
-  //   const userId = userInfoRequired;
-
-  //   // 우선 해당 id의 유저가 db에 있는지 확인
-  //   let user = await this.userModel.findById(userId);
-
-  //   // db에서 찾지 못한 경우, 에러 메시지 반환
-  //   if (!user) {
-  //     throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
-  //   }
-
-  //   // 이제 드디어 업데이트 시작
-  //   const admin = toUpdate;
-
-  //   // 업데이트 진행
-  //   user = await this.userModel.update({
-  //     userId,
-  //     update: toUpdate,
-  //   });
-
-  //   return user;
-  // }
-
-  // // 유저 삭제
-  // async DeleteUser(userId, userPassword, inputPassword) {
-  //   // 객체 destructuring
-
-  //   const correctPasswordHash = userPassword;
-  //   const isPasswordCorrect = await bcrypt.compare(
-  //     inputPassword,
-  //     correctPasswordHash
-  //   );
-
-  //   if (!isPasswordCorrect) {
-  //     throw new Error(
-  //       "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-  //     );
-  //   }
-
-  //   // db에 저장
-  //   const deleteUser = await this.userModel.delete(userId);
-
-  //   return deleteUser;
-  // }
+    return deleteUser;
+  }
 }
 
 const userService = new UserService(userModel);

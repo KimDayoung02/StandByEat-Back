@@ -1,10 +1,11 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 
 const UserSchema = new Schema(
   {
     id: {
       type: String,
       required: true,
+      index: true,
     },
     pw: {
       type: String,
@@ -25,7 +26,7 @@ const UserSchema = new Schema(
     location: {
       type: String,
       required: false,
-    },    
+    },
     birth: {
       type: Date,
       required: false,
@@ -34,7 +35,7 @@ const UserSchema = new Schema(
     profileImgUrl: {
       type: String,
       required: false,
-    },    
+    },
   },
   {
     collection: "users",
