@@ -1,10 +1,10 @@
 import { Router } from "express";
 import is from "@sindresorhus/is";
-import { loginRequired, errorHandler } from "../middlewares";
-import { userService } from "../services";
+import { loginRequired, errorHandler, ownerRequired } from "../middlewares";
+import { ownerService } from "../services";
 import { body, validationResult } from "express-validator";
 
-const userRouter = Router();
+const ownerRouter = Router();
 
 const validationFunc = (req, res, next) => {
   const error = validationResult(req);
@@ -12,8 +12,8 @@ const validationFunc = (req, res, next) => {
   next();
 };
 
-// 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
-userRouter.post(
+// 회원가입 api (아래는 /register이지만, 실제로는 /owner/register로 요청해야 함.)
+ownerRouter.post(
   "/register",
   [
     body("name", "이름을 입력해 주세요.").trim().notEmpty(),
@@ -38,30 +38,20 @@ userRouter.post(
       const id = req.body.id;
       const pw = req.body.pw;
       const name = req.body.name;
-      // const email = req.body.email;
       const phoneNumber = req.body.phoneNumber;
-      // const telNumber = req.body.telNumber;
-      const nickName = req.body.nickName;
       const location = req.body.location;
-      const birth = req.body.birth;
+      const stores = req.body.stores;
       const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${req.body.id}.svg`;
-      // const gender = req.body.gender;
-      // const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${req.body.email}.svg`;
 
       // 위 데이터를 유저 db에 추가하기
-      const newUser = await userService.addUser({
+      const newUser = await ownerService.addUser({
         id,
-        // email,
         pw,
         name,
         phoneNumber,
-        // telNumber,
-        nickName,
         location,
-        birth,
+        stores,
         profileImgUrl,
-        // gender,
-        // profileImgUrl,
       });
 
       // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
@@ -74,8 +64,8 @@ userRouter.post(
   errorHandler
 );
 
-// 로그인 api (아래는 /login 이지만, 실제로는 /api/login로 요청해야 함.)
-userRouter.post(
+// 로그인 api (아래는 /login 이지만, 실제로는 /owner/login로 요청해야 함.)
+ownerRouter.post(
   "/login",
   async function (req, res, next) {
     try {
@@ -91,7 +81,7 @@ userRouter.post(
       const pw = req.body.pw;
 
       // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-      const userToken = await userService.getUserToken({ id, pw });
+      const userToken = await ownerService.getUserToken({ id, pw });
 
       // jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
       res.status(200).json(userToken);
@@ -104,7 +94,7 @@ userRouter.post(
 
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-userRouter.patch(
+ownerRouter.patch(
   "/userInfoupdate/:userId",
   loginRequired,
   async function (req, res, next) {
@@ -123,36 +113,33 @@ userRouter.patch(
       // body data 로부터 업데이트할 사용자 정보를 추출함.
       const name = req.body.name;
       const phoneNumber = req.body.phoneNumber;
-      const nickName = req.body.nickName;
       const location = req.body.location;
-      const birth = req.body.birth;
-      const gender = req.body.gender;
+      const stores = req.body.stores;
       const profileImgUrl = req.body.profileImgUrl;
 
       // body data로부터, 확인용으로 사용할 현재 비밀번호를 추출함.
-      const currentPassword = req.body.currentPassword;
+      const pw = req.body.currentPassword;
 
       // currentPassword 없을 시, 진행 불가
-      if (!currentPassword) {
+      if (!pw) {
         throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
       }
 
-      const userInfoRequired = { userId, currentPassword };
+      const userInfoRequired = { userId, pw };
 
       // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
       // 보내주었다면, 업데이트용 객체에 삽입함.
       const toUpdate = {
         ...(name && { name }),
-        ...(nickName && { nickName }),
         ...(location && { location }),
         ...(phoneNumber && { phoneNumber }),
-        ...(birth && { birth }),
-        ...(gender && { gender }),
+        ...(stores && { stores }),
         ...(profileImgUrl && { profileImgUrl }),
+        ...(pw && { pw }),
       };
 
       // 사용자 정보를 업데이트함.
-      const updatedUserInfo = await userService.setUser(
+      const updatedUserInfo = await ownerService.setUser(
         userInfoRequired,
         toUpdate
       );
@@ -167,7 +154,7 @@ userRouter.patch(
 );
 
 // 사용자 삭제
-userRouter.delete(
+ownerRouter.delete(
   "/deleteUser",
   async function (req, res, next) {
     try {
@@ -175,7 +162,7 @@ userRouter.delete(
       const userId = req.body.userId;
       const userPassword = req.body.password;
       const inputPassword = req.body.passwordConfirmInput;
-      const deleteuser = await userService.DeleteUser(
+      const deleteuser = await ownerService.DeleteUser(
         userId,
         userPassword,
         inputPassword
@@ -188,4 +175,4 @@ userRouter.delete(
   errorHandler
 );
 
-export { userRouter };
+export { ownerRouter };
