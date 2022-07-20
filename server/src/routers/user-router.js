@@ -44,7 +44,7 @@ userRouter.post(
       const nickName = req.body.nickName;
       const location = req.body.location;
       const birth = req.body.birth;
-      const profileImgUrl = req.body.profileImgUrl;
+      const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${req.body.email}.svg`;
       // const gender = req.body.gender;
       // const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${req.body.email}.svg`;
 
