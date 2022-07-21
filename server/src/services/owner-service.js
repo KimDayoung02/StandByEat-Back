@@ -156,6 +156,12 @@ class OwnerService {
     const owners = await this.ownerModel.findAll(query);
     return owners;
   }
+
+  // 업주 한명의 정보를 받음.
+  async getUser(id) {
+    const owners = await this.ownerModel.findById(id);
+    return owners;
+  }
 }
 
 const ownerService = new OwnerService(ownerModel);
