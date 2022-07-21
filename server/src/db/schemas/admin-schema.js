@@ -5,11 +5,12 @@ const AdminSchema = new Schema(
     id: {
       type: String,
       required: true,
+      index: true,
     },
     pw: {
       type: String,
       required: true,
-    }
+    },
   },
   {
     collection: "admins",

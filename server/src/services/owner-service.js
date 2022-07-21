@@ -1,30 +1,22 @@
-import { userModel } from "../db";
+import { ownerModel } from "../db";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-class UserService {
-  // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
-  constructor(userModel) {
-    this.userModel = userModel;
+class OwnerService {
+  // 본 파일의 맨 아래에서, new OwnerService(ownerModel) 하면, 이 함수의 인자로 전달됨
+  constructor(ownerModel) {
+    this.ownerModel = ownerModel;
   }
-  // TODO: 회원가입, 로그인(일반, 카카오톡), 회원정보 수정, 회원 탈퇴
+
   // 회원가입
   async addUser(userInfo) {
     // 객체 destructuring
-    const {
-      id,
-      pw,
-      name,
-      phoneNumber,
-      nickName,
-      location,
-      birth,
-      profileImgUrl,
-    } = userInfo;
+    const { id, pw, name, phoneNumber, location, stores, profileImgUrl } =
+      userInfo;
 
     // 아이디 중복 확인 -> 아이디가 이미 사용중이라면 true, 반대라면 false
-    const user = await this.userModel.findById(id);
+    const user = await this.ownerModel.findById(id);
 
     if (user) {
       throw new Error(
@@ -41,25 +33,24 @@ class UserService {
       pw: hashedPassword,
       name,
       phoneNumber,
-      nickName,
       location,
-      birth,
+      stores,
       profileImgUrl,
     };
 
     // db에 저장
-    const createdNewUser = await this.userModel.create(newUserInfo);
+    const createdNewUser = await this.ownerModel.create(newUserInfo);
 
     return createdNewUser;
   }
 
-  // TODO: 로그인 성공여부 토큰 받기(일반 로그인)
+  // 로그인 성공여부 토큰 받기(일반 로그인)
   async getUserToken(loginInfo) {
     // 로그인 정보에서 순서대로 id와 pw가져옴
     const { id, pw } = loginInfo;
 
     // id로 가입된 회원이 있는지 확인후 그 회원 정보 가져옴.
-    let user = await this.userModel.findById(id);
+    let user = await this.ownerModel.findById(id);
     if (!user) {
       throw new Error(
         "해당 아이디로 가입 내역이 없습니다. 다시 한번 확인해 주세요."
@@ -78,7 +69,7 @@ class UserService {
     // 로그인 성공 시 jwt토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: "user" }, secretKey);
+    const token = jwt.sign({ userId: user._id, role: "owner" }, secretKey);
     // 코튼을 보내줌.
     return { token };
   }
@@ -91,7 +82,7 @@ class UserService {
     const { userId, currentPassword } = userInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let user = await this.userModel.findById(userId);
+    let user = await this.ownerModel.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -124,7 +115,7 @@ class UserService {
     }
 
     // 업데이트 진행
-    user = await this.userModel.updateUserInfo(
+    user = await this.ownerModel.updateUserInfo(
       {
         id: userId,
       },
@@ -141,7 +132,7 @@ class UserService {
       throw new Error("입력한 비밀번호와 비밀번호 확인값이 일치하지 않습니다.");
     }
 
-    let user = await this.userModel.findById(userId);
+    let user = await this.ownerModel.findById(userId);
     const correctPasswordHash = user.pw;
     const isPasswordCorrect = await bcrypt.compare(
       userPassword,
@@ -155,12 +146,12 @@ class UserService {
     }
 
     // db에 저장
-    const deleteUser = await this.userModel.delete(user);
+    const deleteUser = await this.ownerModel.delete(user);
 
     return deleteUser;
   }
 }
 
-const userService = new UserService(userModel);
+const ownerService = new OwnerService(ownerModel);
 
-export { userService };
+export { ownerService };

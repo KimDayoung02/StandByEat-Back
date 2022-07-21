@@ -5,6 +5,7 @@ const OwnerSchema = new Schema(
     id: {
       type: String,
       required: true,
+      index: true,
     },
     pw: {
       type: String,
@@ -17,7 +18,7 @@ const OwnerSchema = new Schema(
     phoneNumber: {
       type: String,
       required: true,
-    },    
+    },
     location: {
       type: String,
       required: false,
@@ -25,7 +26,7 @@ const OwnerSchema = new Schema(
     store: {
       type: Array,
       required: false,
-    },   
+    },
     profileImg: {
       type: String,
       required: false,
