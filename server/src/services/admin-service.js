@@ -78,7 +78,7 @@ class UserService {
     // 로그인 성공 시 jwt토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: "user" }, secretKey);
+    const token = jwt.sign({ userId: user._id }, secretKey);
     // 코튼을 보내줌.
     return { token };
   }
@@ -116,11 +116,11 @@ class UserService {
     // 이제 드디어 업데이트 시작
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
-    const { pw } = toUpdate;
+    const { password } = toUpdate;
 
-    if (pw) {
-      const newPasswordHash = await bcrypt.hash(pw, 10);
-      toUpdate.pw = newPasswordHash;
+    if (password) {
+      const newPasswordHash = await bcrypt.hash(password, 10);
+      toUpdate.password = newPasswordHash;
     }
 
     // 업데이트 진행
@@ -135,7 +135,7 @@ class UserService {
   }
 
   // 유저 삭제
-  async deleteUser(userId, userPassword, inputPassword) {
+  async DeleteUser(userId, userPassword, inputPassword) {
     // 객체 destructuring
     if (userPassword != inputPassword) {
       throw new Error("입력한 비밀번호와 비밀번호 확인값이 일치하지 않습니다.");

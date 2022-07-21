@@ -1,12 +1,12 @@
-import cors from 'cors';
-import express from 'express';
-let http = require('http');
-let path = require('path');
+import cors from "cors";
+import express from "express";
+let http = require("http");
+let path = require("path");
 
-import { userRouter, storeRouter, orderRouter } from './routers';
+import { userRouter, storeRouter, orderRouter, ownerRouter } from "./routers";
 
-import { errorHandler } from './middlewares';
-import { orderModel } from './db';
+import { errorHandler } from "./middlewares";
+import { orderModel } from "./db";
 
 const app = express();
 
@@ -23,14 +23,15 @@ app.use(express.urlencoded({ extended: false }));
 // 아래처럼 하면, userRouter 에서 '/login' 으로 만든 것이 실제로는 앞에 /api가 붙어서
 // /api/login 으로 요청을 해야 하게 됨. 백엔드용 라우팅을 구분하기 위함임.
 
-app.use('/api', userRouter);
+app.use("/api", userRouter);
 
-app.use('/api', storeRouter);
-app.use('/api', orderRouter);
+app.use("/api", storeRouter);
+app.use("/api", orderRouter);
+app.use("/owner", ownerRouter);
 
-let publicPath = path.resolve(__dirname, 'image');
+let publicPath = path.resolve(__dirname, "image");
 
-app.use('/', express.static('src'));
+app.use("/", express.static("src"));
 
 // 순서 중요 (errorHandler은 다른 일반 라우팅보다 나중에 있어야 함)
 // 그래야, 에러가 났을 때 next(error) 했을 때 여기로 오게 됨
