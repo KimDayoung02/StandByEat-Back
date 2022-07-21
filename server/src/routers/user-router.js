@@ -198,4 +198,22 @@ userRouter.get(
   errorHandler
 );
 
+// 유저 한명의 정보를 가져온다.
+userRouter.get(
+  "/user/:userId",
+  // loginRequired,
+  async function (req, res, next) {
+    try {
+      // 전체 사용자 목록을 얻음
+      const userId = req.params.userId;
+      const users = await userService.getUser(userId);
+      // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
+      res.status(200).json(users);
+    } catch (error) {
+      next(error);
+    }
+  },
+  errorHandler
+);
+
 export { userRouter };

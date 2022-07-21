@@ -149,6 +149,12 @@ class AdminService {
     const admins = await this.adminModel.findAll(query);
     return admins;
   }
+
+  // 관리자 한명의 정보를 받음.
+  async getUser(id) {
+    const owners = await this.adminModel.findById(id);
+    return owners;
+  }
 }
 
 const adminService = new AdminService(adminModel);

@@ -165,6 +165,12 @@ class UserService {
     const users = await this.userModel.findAll(filter);
     return users;
   }
+
+  // 유저 한명의 정보를 받음.
+  async getUser(id) {
+    const owners = await this.userModel.findById(id);
+    return owners;
+  }
 }
 
 const userService = new UserService(userModel);
