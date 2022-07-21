@@ -159,6 +159,12 @@ class UserService {
 
     return deleteUser;
   }
+
+  // 유저 정보를 받음
+  async getUsers(filter) {
+    const users = await this.userModel.findAll(filter);
+    return users;
+  }
 }
 
 const userService = new UserService(userModel);
