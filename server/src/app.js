@@ -3,7 +3,9 @@ import express from "express";
 let http = require("http");
 let path = require("path");
 
-import { userRouter, storeRouter, orderRouter, ownerRouter } from "./routers";
+
+import { userRouter, storeRouter, orderRouter, adminRouter,ownerRouter } from "./routers";
+
 
 import { errorHandler } from "./middlewares";
 import { orderModel } from "./db";
@@ -27,9 +29,11 @@ app.use("/api", userRouter);
 
 app.use("/api", storeRouter);
 app.use("/api", orderRouter);
-app.use("/owner", ownerRouter);
 
+app.use("/admin", adminRouter);
+app.use("/owner", ownerRouter);
 let publicPath = path.resolve(__dirname, "image");
+
 
 app.use("/", express.static("src"));
 
