@@ -36,6 +36,13 @@ export class AdminModel {
     return admin;
     // 성공한 값의 갯수를 전달.
   }
+
+  // 회원 정보를 가져온다.(모든 회원 정보 가져오기)
+  async findAll(filter) {
+    // filter(조건)에 따른 모든 정보를 가져온다.
+    const admins = await Admin.find(filter);
+    return admins;
+  }
 }
 
 const adminModel = new AdminModel();

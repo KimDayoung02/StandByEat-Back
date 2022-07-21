@@ -1,6 +1,6 @@
 import { Router } from "express";
 import is from "@sindresorhus/is";
-import { loginRequired, errorHandler } from "../middlewares";
+import { loginRequired, errorHandler, adminRequired } from "../middlewares";
 import { adminService } from "../services";
 import { body, validationResult } from "express-validator";
 
@@ -146,6 +146,23 @@ adminRouter.delete(
         inputPassword
       );
       res.status(200).json(deleteuser);
+    } catch (error) {
+      next(error);
+    }
+  },
+  errorHandler
+);
+
+// 관리자의 목록을 가져온다.
+adminRouter.get(
+  "/users",
+  // adminRequired,
+  async function (req, res, next) {
+    try {
+      // 전체 사용자 목록을 얻음
+      const users = await adminService.getUsers(req.query);
+      // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
+      res.status(200).json(users);
     } catch (error) {
       next(error);
     }
