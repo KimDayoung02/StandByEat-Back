@@ -1,6 +1,11 @@
 import { Router } from "express";
 import is from "@sindresorhus/is";
-import { loginRequired, errorHandler, adminRequired } from "../middlewares";
+import {
+  loginRequired,
+  errorHandler,
+  adminRequired,
+  identificationRequired,
+} from "../middlewares";
 import { userService } from "../services";
 import { body, validationResult } from "express-validator";
 
