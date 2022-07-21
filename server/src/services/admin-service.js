@@ -143,6 +143,12 @@ class AdminService {
 
     return deleteUser;
   }
+
+  // 관리자 목록을 받음.
+  async getUsers(query) {
+    const admins = await this.adminModel.findAll(query);
+    return admins;
+  }
 }
 
 const adminService = new AdminService(adminModel);

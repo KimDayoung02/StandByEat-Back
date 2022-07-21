@@ -150,6 +150,12 @@ class OwnerService {
 
     return deleteUser;
   }
+
+  // 업주 목록을 받음.
+  async getUsers(query) {
+    const owners = await this.ownerModel.findAll(query);
+    return owners;
+  }
 }
 
 const ownerService = new OwnerService(ownerModel);

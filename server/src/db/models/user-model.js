@@ -41,6 +41,13 @@ export class UserModel {
     return user;
     // 성공한 값의 갯수를 전달.
   }
+
+  // 모든 회원의 정보를 조회한다.(모든 회원 조회)
+  async findAll(filter) {
+    // filter(조건)에 맞는 모든 유저 정보를 반환한다.
+    const users = await User.find(filter);
+    return users;
+  }
 }
 
 const userModel = new UserModel();
