@@ -59,6 +59,14 @@ const StoreSchema = new Schema(
       type: Array,
       required: false,
     },
+    latitude: {
+      type: String,
+      required: true,
+    },
+    hardness: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

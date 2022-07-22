@@ -60,6 +60,8 @@ storeRouter.post('/store', upload.single('image'), async (req, res, next) => {
     const notice = req.body.notice;
     const tag = req.body.tag;
     const facilities = req.body.facilities;
+    const latitude = req.body.latitude;
+    const hardness = req.body.hardness;
 
     // 위 데이터를 유저 db에 추가하기
     const newStore = await storeService.addStore({
@@ -77,6 +79,8 @@ storeRouter.post('/store', upload.single('image'), async (req, res, next) => {
       notice,
       tag,
       facilities,
+      latitude,
+      hardness,
     });
 
     // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
