@@ -24,4 +24,5 @@ export * from "./models/store-model";
 export * from "./models/order-model";
 export * from "./models/admin-model";
 export * from "./models/owner-model";
+export * from "./models/review-model";
 
