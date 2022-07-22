@@ -1,7 +1,7 @@
-import { storeModel } from "../db";
+import { storeModel } from '../db';
 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 class StoreService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
@@ -27,7 +27,8 @@ class StoreService {
       notice,
       tag,
       facilities,
-
+      latitude,
+      hardness,
     } = storeInfo;
 
     const newStoreInfo = {
@@ -45,6 +46,8 @@ class StoreService {
       notice,
       tag,
       facilities,
+      latitude,
+      hardness,
     };
 
     // db에 저장
@@ -74,7 +77,7 @@ class StoreService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!stores) {
-      throw new Error("상점 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      throw new Error('상점 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
     // const PackageName = package.packageName;
@@ -104,7 +107,7 @@ class StoreService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!stores) {
-      throw new Error("상점 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      throw new Error('상점 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
     // 이제 드디어 업데이트 시작

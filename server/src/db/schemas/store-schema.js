@@ -4,11 +4,11 @@ const StoreSchema = new Schema(
   {
     storeName: {
       type: String,
-      required: true,
+      required: false,
     },
     location: {
       type: String,
-      required: true,
+      required: false,
     },
     categoryLocation: {
       type: String,
@@ -16,11 +16,11 @@ const StoreSchema = new Schema(
     },
     menu: {
       type: String,
-      required: true,
+      required: false,
     },
     phoneNumber: {
       type: String,
-      required: true,
+      required: false,
     },
     introduction: {
       type: String,
@@ -57,6 +57,14 @@ const StoreSchema = new Schema(
     },
     facilities: {
       type: Array,
+      required: false,
+    },
+    latitude: {
+      type: String,
+      required: false,
+    },
+    hardness: {
+      type: String,
       required: false,
     },
   },
