@@ -175,7 +175,7 @@ storeRouter.patch('/store/:storeId', async function (req, res, next) {
 });
 
 // 선택 상품 삭제
-storeRouter.delete('/store/:stroeId', async function (req, res, next) {
+storeRouter.delete('/store/:storeId', async function (req, res, next) {
   try {
     // 상품 Id 얻음
     const storeId = req.params.storeId;
