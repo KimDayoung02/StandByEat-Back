@@ -4,35 +4,73 @@ import is from '@sindresorhus/is';
 import { loginRequired } from '../middlewares';
 import { storeService } from '../services';
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 
 const storeRouter = Router();
-const DIR = 'src/db/image/';
+// const DIR = 'src/db/image/';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, DIR);
-  }, //file 을 받아와서 DIR 경로에 저장한다.
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_S3_REGION,
+});
+const getSignedUrl = ({ key }) => {
+  return new Promise((resolve, reject) => {
+    s3.createPresignedPost(
+      {
+        Bucket: '<your bucket name>',
+        Fields: {
+          key /* ex) image/<파일 이름>.<jpeg or png> */,
+        },
+        Conditions: [
+          ['content-length-range', 0, 50 * 1000 * 1000],
+          ['starts-with', '$Content-Type', 'image/'],
+        ],
+      },
+      (err, data) => {
+        if (err) reject(err);
+        resolve(data);
+      }
+    );
+  });
+};
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'standbyeat', // 버킷 이름 입력
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    key: (req, file, cb) => {
+      cb(null, `uploads/${Date.now()}_${file.originalname}}`);
+    },
+  }),
 });
 
-let upload = multer({
-  storage: storage,
-  fileFilter: (req, file, cb) => {
-    // 말 그대로 fileFilter
-    if (
-      file.mimetype == 'image/png' ||
-      file.mimetype == 'image/jpg' ||
-      file.mimetype == 'image/jpeg'
-    ) {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      return cb(new Error('Only .png .jpg and .jpeg format allowed!'));
-    }
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, DIR);
+//   }, //file 을 받아와서 DIR 경로에 저장한다.
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
+// });
+
+// let upload = multer({
+//   storage: storage,
+//   fileFilter: (req, file, cb) => {
+//     // 말 그대로 fileFilter
+//     if (
+//       file.mimetype == 'image/png' ||
+//       file.mimetype == 'image/jpg' ||
+//       file.mimetype == 'image/jpeg'
+//     ) {
+//       cb(null, true);
+//     } else {
+//       cb(null, false);
+//       return cb(new Error('Only .png .jpg and .jpeg format allowed!'));
+//     }
+//   },
+// });
 
 // 상점등록 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 storeRouter.post('/store', upload.single('image'), async (req, res, next) => {
@@ -44,7 +82,7 @@ storeRouter.post('/store', upload.single('image'), async (req, res, next) => {
         'headers의 Content-Type을 application/json으로 설정해주세요'
       );
     }
-    const url = req.protocol + '://' + req.get('host');
+    const picture = req.file.location;
     // req (request)의 body 에서 데이터 가져오기
     const storeName = req.body.storeName;
     const location = req.body.location;
@@ -56,7 +94,7 @@ storeRouter.post('/store', upload.single('image'), async (req, res, next) => {
     const webSite = req.body.webSite;
     const maxPeopleCount = req.body.maxPeopleCount;
     const reservationTime = req.body.reservationTime;
-    const picture = url + '/db/image/'; /*req.file.filename*/
+    // const picture = url + '/db/image/'; /*req.file.filename*/
     const notice = req.body.notice;
     const tag = req.body.tag;
     const facilities = req.body.facilities;
