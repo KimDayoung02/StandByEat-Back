@@ -26,6 +26,18 @@ class ReviewService {
     const review = await reviewModel.delete(reviewId);
     return review;
   }
+  // 업주 목록을 받음.
+  async getUsers(query) {
+    const review = await this.reviewModel.findAll(query);
+    return review;
+  }
+
+  // 업주 한명의 정보를 받음.
+  async getUser(reviewId) {
+   
+    const review = await this.reviewModel.findById(reviewId);
+    return review;
+  }
 
 }
 

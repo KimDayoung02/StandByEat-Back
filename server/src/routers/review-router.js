@@ -35,8 +35,8 @@ reviewRouter.post(
 
       // 위 데이터를 리뷰 db에 추가하기
       const newReview = await reviewService.addReview({
-        // userId,
-        // storeId,
+        userId,
+        storeId,
         reviewScore,
         reviewImgUrl,
         reviewregisterTime,
@@ -97,6 +97,41 @@ reviewRouter.delete(
       const reviewId = req.body.userId;
       const deleteuser = await reviewService.DeleteUser(reviewId);
       res.status(200).json(deleteuser);
+    } catch (error) {
+      next(error);
+    }
+  },
+  errorHandler
+);
+
+// 관리자의 목록을 가져온다.
+reviewRouter.get(
+  "/reviews",
+  // adminRequired,
+  async function (req, res, next) {
+    try {
+      // 전체 사용자 목록을 얻음
+      const users = await reviewService.getUsers(req.query);
+      // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
+      res.status(200).json(users);
+    } catch (error) {
+      next(error);
+    }
+  },
+  errorHandler
+);
+
+// 업주 한명의 정보를 가져온다.
+reviewRouter.get(
+  "/review/:reviewId",
+  // loginRequired,
+  async function (req, res, next) {
+    try {
+      // 전체 사용자 목록을 얻음
+      const userId = req.params.reviewId;
+      const users = await reviewService.getUser(userId);
+      // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
+      res.status(200).json(users);
     } catch (error) {
       next(error);
     }

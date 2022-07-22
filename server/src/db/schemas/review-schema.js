@@ -4,6 +4,7 @@ const ReviewSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
+      ref: "users",
       required: false,
       index: true,
     },
@@ -27,11 +28,11 @@ const ReviewSchema = new Schema(
       type: String,
       required: false,
     },
-  },
-  {
-    collection: "review",
-    timestamps: true,
   }
+  // {
+  //   collection: "review",
+  //   timestamps: true,
+  // }
 );
 
 export { ReviewSchema };

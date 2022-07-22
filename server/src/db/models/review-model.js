@@ -12,9 +12,9 @@ export class ReviewModel {
   }
 
   // filter내용으로 리뷰 조회한다. (리뷰 조회)
-  async findById(filter) {
+  async findById(reviewId) {
     // user모델과 동일
-    const review = await Review.findOne(filter);
+    const review = await Review.findOne({ _id: reviewId }).populate("userId","id nickName");
     return review;
   }
 
