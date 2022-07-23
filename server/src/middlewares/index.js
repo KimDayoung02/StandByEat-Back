@@ -5,4 +5,4 @@ export * from "./error-handler";
 export * from "./login-required";
 export * from "./admin-required";
 export * from "./owner-required";
-export * from "./identification-required";
+export * from "./registerCheck";

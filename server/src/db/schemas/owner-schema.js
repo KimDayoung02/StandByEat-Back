@@ -23,7 +23,7 @@ const OwnerSchema = new Schema(
       type: String,
       required: false,
     },
-    store: {
+    stores: {
       type: Array,
       required: false,
     },
