@@ -4,23 +4,23 @@ const StoreSchema = new Schema(
   {
     storeName: {
       type: String,
-      required: false,
+      required: true,
     },
     location: {
       type: String,
-      required: false,
+      required: true,
     },
     categoryLocation: {
       type: String,
       required: false,
     },
     menu: {
-      type: String,
-      required: false,
+      type: Array,
+      required: true,
     },
     phoneNumber: {
       type: String,
-      required: false,
+      required: true,
     },
     introduction: {
       type: String,
@@ -44,7 +44,7 @@ const StoreSchema = new Schema(
       required: false,
     },
     picture: {
-      type: String,
+      type: Array,
       required: false,
     },
     notice: {

@@ -16,7 +16,8 @@ orderRouter.post('/order', async (req, res, next) => {
         'headers의 Content-Type을 application/json으로 설정해주세요'
       );
     }
-
+    // console.log(req.body);
+    // const orderInfo = req.body;
     // req (request)의 body 에서 데이터 가져오기
     const userId = req.body.userId;
     const storeId = req.body.storeId;
@@ -99,6 +100,7 @@ orderRouter.patch('/order/:orderId', async function (req, res, next) {
       ...(userId && { userId }),
       ...(storeId && { storeId }),
       ...(numberOfReservations && { numberOfReservations }),
+      ...(reservationTime && { reservationTime }),
       ...(fee && { fee }),
       ...(requirements && { requirements }),
     };
