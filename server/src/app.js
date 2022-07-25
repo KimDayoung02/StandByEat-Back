@@ -1,14 +1,19 @@
-import cors from "cors";
-import express from "express";
-let http = require("http");
-let path = require("path");
+import cors from 'cors';
+import express from 'express';
+let http = require('http');
+let path = require('path');
 
+import {
+  userRouter,
+  storeRouter,
+  orderRouter,
+  adminRouter,
+  ownerRouter,
+  reviewRouter,
+} from './routers';
 
-import { userRouter, storeRouter, orderRouter, adminRouter,ownerRouter,reviewRouter } from "./routers";
-
-
-import { errorHandler } from "./middlewares";
-import { orderModel } from "./db";
+import { errorHandler } from './middlewares';
+import { orderModel } from './db';
 
 const app = express();
 
@@ -27,13 +32,12 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', userRouter);
 
-app.use("/admin", adminRouter);
-app.use("/owner", ownerRouter);
-app.use("/review", reviewRouter);
-let publicPath = path.resolve(__dirname, "image");
-
 app.use('/admin', adminRouter);
 app.use('/owner', ownerRouter);
+app.use('/review', reviewRouter);
+
+app.use('/api', storeRouter);
+app.use('/api', orderRouter);
 let publicPath = path.resolve(__dirname, 'image');
 
 app.use('/', express.static('src'));
