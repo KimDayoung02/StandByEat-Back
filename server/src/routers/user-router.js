@@ -169,4 +169,33 @@ userRouter.get(
   errorHandler
 );
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// 카카오 회원가입
+userRouter.post("/register/kakao", async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    const nickname = req.body.nickname;
+
+    const newUser = await userService.addUserWithKakao(email, nickname);
+
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
+// 카카오 로그인
+userRouter.post("/login/kakao", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+
+    const loginResult = await userService.getUserTokenWithKakao(email);
+
+    res.status(200).json(loginResult);
+  } catch (error) {
+    next(error);
+  }
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 export { userRouter };
