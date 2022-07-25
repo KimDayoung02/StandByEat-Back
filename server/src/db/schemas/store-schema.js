@@ -15,7 +15,7 @@ const StoreSchema = new Schema(
       required: false,
     },
     menu: {
-      type: String,
+      type: Array,
       required: false,
     },
     phoneNumber: {
@@ -44,7 +44,7 @@ const StoreSchema = new Schema(
       required: false,
     },
     picture: {
-      type: String,
+      type: Array,
       required: false,
     },
     notice: {
