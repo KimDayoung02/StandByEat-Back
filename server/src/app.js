@@ -10,8 +10,11 @@ import {
   adminRouter,
   ownerRouter,
   reviewRouter,
+
   commonRouter,
-} from "./routers";
+  timeRouter,
+} from './routers';
+
 
 import { errorHandler } from "./middlewares";
 import { orderModel } from "./db";
@@ -31,16 +34,24 @@ app.use(express.urlencoded({ extended: false }));
 // 아래처럼 하면, userRouter 에서 '/login' 으로 만든 것이 실제로는 앞에 /api가 붙어서
 // /api/login 으로 요청을 해야 하게 됨. 백엔드용 라우팅을 구분하기 위함임.
 
-app.use("/user", userRouter);
+app.use('/user', userRouter);
 
 app.use("/admin", adminRouter);
 app.use("/owner", ownerRouter);
 app.use("/review", reviewRouter);
 
+<<<<<<< server/src/app.js
 app.use("/api", storeRouter);
 app.use("/api", orderRouter);
 app.use("/common", commonRouter);
 let publicPath = path.resolve(__dirname, "image");
+=======
+app.use('/api', storeRouter);
+app.use('/api', orderRouter);
+app.use('/api', timeRouter);
+
+let publicPath = path.resolve(__dirname, 'image');
+>>>>>>> server/src/app.js
 
 app.use("/", express.static("src"));
 

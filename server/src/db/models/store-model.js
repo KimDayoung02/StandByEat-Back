@@ -1,10 +1,10 @@
-import { model } from "mongoose";
-const mongoose = require("mongoose");
-import { StoreSchema } from "../schemas/store-schema";
+import { model } from 'mongoose';
+const mongoose = require('mongoose');
+import { StoreSchema } from '../schemas/store-schema';
 // import { ObjectId } from 'mongoose';
 // import { ObjectId } from '..db';
 
-const Store = model("store", StoreSchema);
+const Store = model('store', StoreSchema);
 
 export class StoreModel {
   async findByStoreName(storeName) {
@@ -22,7 +22,7 @@ export class StoreModel {
     return stores;
   }
   async findById(storeId) {
-    const findstore = await Store.findOne({ _id: storeId });
+    const findstore = await Store.findOne({ _id: storeId }).populate('timeId');
     return findstore;
   }
 
@@ -31,6 +31,12 @@ export class StoreModel {
 
     const updatedStore = await Store.findOneAndUpdate(filter, update);
     return updatedStore;
+  }
+  async timeupdate({ storeId, update }) {
+    const filter = { _id: storeId };
+
+    const updatedTime = await Store.findOneAndUpdate(filter, { $push: update });
+    return updatedTime;
   }
 
   async delete(storeId) {
