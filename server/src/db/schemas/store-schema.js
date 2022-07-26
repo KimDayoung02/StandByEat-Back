@@ -14,10 +14,13 @@ const StoreSchema = new Schema(
       type: String,
       required: false,
     },
-    menu: {
-      type: Array,
-      required: true,
-    },
+    menuId: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'menu',
+        required: false,
+      },
+    ],
     phoneNumber: {
       type: String,
       required: true,
@@ -34,15 +37,13 @@ const StoreSchema = new Schema(
       type: String,
       required: false,
     },
-    maxPeopleCount: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    reservationTime: {
-      type: Array,
-      required: false,
-    },
+    timeId: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'time',
+        required: false,
+      },
+    ],
     picture: {
       type: Array,
       required: false,
