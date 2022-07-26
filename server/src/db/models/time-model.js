@@ -24,7 +24,7 @@ export class TimeModel {
 
   async update({ timeId, update }) {
     const filter = { _id: timeId };
-
+    console.log(update);
     const updatedTime = await Time.findOneAndUpdate(filter, update);
     return updatedTime;
   }

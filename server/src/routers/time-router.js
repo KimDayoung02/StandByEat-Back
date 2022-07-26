@@ -68,7 +68,7 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
     const timeId = req.params.timeId;
     const { storeId, maxNumberOfReservations, year, month, day, hour, min } =
       req.body;
-
+    console.log(req.body);
     // let timeIdInput = [];
     // timeId.forEach(function (item) {
     //   timeIdInput.push(new ObjectId(item));
@@ -79,7 +79,8 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
     const toUpdate = {
       ...(storeId && { storeId }),
       ...(maxNumberOfReservations && { maxNumberOfReservations }),
-      ...(year && { month }),
+      ...(year && { year }),
+      ...(month && { month }),
       ...(day && { day }),
       ...(hour && { hour }),
       ...(min && { min }),
@@ -87,7 +88,6 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
 
     // 사용자 정보를 업데이트함.
     const updatedTimeInfo = await timeService.setTime(timeId, toUpdate);
-
     // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
     res.status(200).json(updatedTimeInfo);
   } catch (error) {

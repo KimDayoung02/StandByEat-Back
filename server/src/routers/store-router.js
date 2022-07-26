@@ -254,7 +254,7 @@ storeRouter.patch(
 
 // 예약시간 삽입
 storeRouter.patch(
-  '/time/:storeId',
+  '/storeTime/:storeId',
 
   async function (req, res, next) {
     try {
@@ -267,7 +267,7 @@ storeRouter.patch(
       const toUpdate = {
         ...(timeId && { timeId }),
       };
-      console.log(toUpdate);
+
       // 사용자 정보를 업데이트함.
       const updatedStoreInfo = await storeService.pushTime(storeId, toUpdate);
 
