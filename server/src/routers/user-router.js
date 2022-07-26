@@ -141,7 +141,7 @@ userRouter.delete(
 // 모든 유저 정보를 가져옴
 userRouter.get(
   "/users",
-  adminRequired,
+  // adminRequired,
   async function (req, res, next) {
     try {
       const users = await userService.getUsers(req.query);
