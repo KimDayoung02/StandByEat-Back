@@ -12,8 +12,16 @@ class TimeService {
   // 패키지 생성
   async addTime(timeInfo) {
     // 객체 destructuring
-    const { storeId, maxNumberOfReservations, year, month, day, hour, min } =
-      timeInfo;
+    const {
+      storeId,
+      maxNumberOfReservations,
+      year,
+      month,
+      day,
+      hour,
+      min,
+      count,
+    } = timeInfo;
 
     const newTimeInfo = {
       storeId,
@@ -23,6 +31,7 @@ class TimeService {
       day,
       hour,
       min,
+      count,
     };
 
     // db에 저장

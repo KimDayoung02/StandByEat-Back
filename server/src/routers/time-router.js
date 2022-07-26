@@ -18,8 +18,20 @@ timeRouter.post('/time', async (req, res, next) => {
     }
 
     // req (request)의 body 에서 데이터 가져오기
-    const { storeId, maxNumberOfReservations, year, month, day, hour, min } =
-      req.body;
+    const {
+      storeId,
+      maxNumberOfReservations,
+      year,
+      month,
+      day,
+      hour,
+      min,
+      count,
+    } = req.body;
+
+    if (count > maxNumberOfReservations) {
+      throw new Error('예약 가능 인원수가 초과하였습다.');
+    }
 
     // 위 데이터를 유저 db에 추가하기
     const newTime = await timeService.addTime({
@@ -30,6 +42,7 @@ timeRouter.post('/time', async (req, res, next) => {
       day,
       hour,
       min,
+      count,
     });
 
     // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
@@ -66,9 +79,19 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
     // }
     // params로부터 id를 가져옴
     const timeId = req.params.timeId;
-    const { storeId, maxNumberOfReservations, year, month, day, hour, min } =
-      req.body;
-    console.log(req.body);
+    const {
+      storeId,
+      maxNumberOfReservations,
+      year,
+      month,
+      day,
+      hour,
+      min,
+      count,
+    } = req.body;
+    if (count > maxNumberOfReservations) {
+      throw new Error('예약 가능 인원수가 초과하였습다.');
+    }
     // let timeIdInput = [];
     // timeId.forEach(function (item) {
     //   timeIdInput.push(new ObjectId(item));
@@ -84,6 +107,7 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
       ...(day && { day }),
       ...(hour && { hour }),
       ...(min && { min }),
+      ...(count && { count }),
     };
 
     // 사용자 정보를 업데이트함.
@@ -94,37 +118,6 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
     next(error);
   }
 });
-
-// 예약시간 삽입
-timeRouter.patch(
-  '/time/:storeId',
-
-  async function (req, res, next) {
-    try {
-      const storeId = req.params.storeId;
-      const timeId = req.body.timeId;
-
-      let timeIdInput = [];
-      timeId.forEach(function (timeId) {
-        timeIdInput.push(new ObjectId(timeId));
-      });
-
-      // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
-      // 보내주었다면, 업데이트용 객체에 삽입함.
-      const toUpdate = {
-        ...(timeIdInput && { timeIdInput }),
-      };
-
-      // 사용자 정보를 업데이트함.
-      const updatedStoreInfo = await timeService.setStore(storeId, toUpdate);
-
-      // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
-      res.status(200).json(updatedStoreInfo);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
 
 // 선택 상품 삭제
 timeRouter.delete('/time/:timeId', async function (req, res, next) {

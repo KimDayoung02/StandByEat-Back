@@ -31,6 +31,11 @@ const TimeSchema = new Schema({
     type: Number,
     required: true,
   },
+  count: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
 });
 
 export { TimeSchema };
