@@ -15,13 +15,27 @@ class CommonService {
     }
   }
 
+  // token으로 아이디(_id) 가져오기
+  getDBIdWithToken(token) {
+    try {
+      const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+      const jwtDecoded = jwt.verify(token, secretKey);
+
+      const userId = jwtDecoded.userId;
+
+      return userId;
+    } catch (error) {
+      throw new Error("정상적인 토큰이 아닙니다.");
+    }
+  }
+
   // token으로 아이디 가져오기
   getIdWithToken(token) {
     try {
       const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
       const jwtDecoded = jwt.verify(token, secretKey);
 
-      const userId = jwtDecoded.userId;
+      const userId = jwtDecoded.id;
 
       return userId;
     } catch (error) {
