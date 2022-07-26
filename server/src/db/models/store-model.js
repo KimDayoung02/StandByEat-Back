@@ -22,7 +22,9 @@ export class StoreModel {
     return stores;
   }
   async findById(storeId) {
-    const findstore = await Store.findOne({ _id: storeId }).populate('timeId');
+    const findstore = await Store.findOne({ _id: storeId })
+      .populate('timeId')
+      .populate('menuId');
     return findstore;
   }
 

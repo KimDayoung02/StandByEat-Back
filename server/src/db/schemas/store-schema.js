@@ -14,10 +14,13 @@ const StoreSchema = new Schema(
       type: String,
       required: false,
     },
-    menu: {
-      type: Array,
-      required: true,
-    },
+    menuId: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'menu',
+        required: false,
+      },
+    ],
     phoneNumber: {
       type: String,
       required: true,
