@@ -67,7 +67,10 @@ class UserService {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const token = jwt.sign({ userId: user._id, role: "user" }, secretKey);
+    const token = jwt.sign(
+      { id: id, userId: user._id, role: "user" },
+      secretKey
+    );
     return { token };
   }
 
@@ -136,6 +139,59 @@ class UserService {
   async getUser(id) {
     const owners = await this.userModel.findUserById(id);
     return owners;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // 카카오 Oauth 로그인
+  // 카카오 회원의 정보 (이메일-> 아이디)
+  async getUserTokenWithKakao(email) {
+    if (!email) {
+      throw new Error("로그인을 위해서는 이메일 필요합니다");
+    }
+
+    const user = await this.userModel.findUserById(email);
+    if (!user) {
+      throw new Error(
+        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."
+      );
+    }
+
+    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const token = jwt.sign({ userId: user.id, role: user.role }, secretKey);
+    const role = "user";
+
+    return { token, role };
+  }
+
+  // 카카오 Oauth 회원가입
+  async addUserWithKakao(email, nickname) {
+    if (!email || !nickname) {
+      throw new Error("회원가입을 위해서는 이메일과 이름이 필요합니다");
+    }
+
+    const user = await this.userModel.findUserById(email);
+    if (user) {
+      throw new Error(
+        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
+      );
+    }
+
+    const password = "kakao";
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUserInfo = {
+      id: email,
+      name: nickname,
+      password: hashedPassword,
+      phoneNumber: "010-1111-2222",
+    };
+
+    const createdNewUser = await this.userModel.createUserByUserInfo(
+      newUserInfo
+    );
+
+    return createdNewUser;
   }
 }
 
