@@ -67,7 +67,10 @@ class UserService {
     }
 
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const token = jwt.sign({ userId: user._id, role: "user" }, secretKey);
+    const token = jwt.sign(
+      { id: id, userId: user._id, role: "user" },
+      secretKey
+    );
     return { token };
   }
 
