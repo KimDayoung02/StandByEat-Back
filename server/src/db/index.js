@@ -26,3 +26,4 @@ export * from './models/admin-model';
 export * from './models/owner-model';
 export * from './models/review-model';
 export * from './models/time-model';
+export * from './models/menu-model';
