@@ -12,6 +12,7 @@ import {
   reviewRouter,
   commonRouter,
   timeRouter,
+  menuRouter,
 } from './routers';
 
 import { errorHandler } from './middlewares';
@@ -45,6 +46,7 @@ app.use('/common', commonRouter);
 app.use('/api', storeRouter);
 app.use('/api', orderRouter);
 app.use('/api', timeRouter);
+app.use('/api', menuRouter);
 
 let publicPath = path.resolve(__dirname, 'image');
 
