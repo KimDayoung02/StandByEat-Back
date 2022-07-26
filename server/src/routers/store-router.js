@@ -75,25 +75,42 @@ storeRouter.post(
       for (let i = 0; i < req.files.length; i++) {
         picture.push(req.files[i].location);
       }
-
+      console.log(req.body);
       // req (request)의 body 에서 데이터 가져오기
-      const storeName = req.body.storeName;
-      const location = req.body.location;
-      const categoryLocation = req.body.categoryLocation;
-      const menu = req.body.menu;
-      const phoneNumber = req.body.phoneNumber;
-      const introduction = req.body.introduction;
-      const openingHours = req.body.openingHours;
-      const webSite = req.body.webSite;
-      const maxPeopleCount = req.body.maxPeopleCount;
-      const reservationTime = req.body.reservationTime;
-      // const picture = url + '/db/image/'; /*req.file.filename*/
-      const notice = req.body.notice;
-      const tag = req.body.tag;
-      const facilities = req.body.facilities;
-      const latitude = req.body.latitude;
-      const hardness = req.body.hardness;
+      const {
+        storeName,
+        location,
+        categoryLocation,
+        menu,
+        phoneNumber,
+        introduction,
+        openingHours,
+        webSite,
+        timeId,
+        notice,
+        tag,
+        facilities,
+        latitude,
+        hardness,
+      } = req.body;
+      // const storeName = req.body.storeName;
+      // const location = req.body.location;
+      // const categoryLocation = req.body.categoryLocation;
+      // const menu = req.body.menu;
+      // const phoneNumber = req.body.phoneNumber;
+      // const introduction = req.body.introduction;
+      // const openingHours = req.body.openingHours;
+      // const webSite = req.body.webSite;
 
+      // const timeId = req.body.timeId;
+      // // const picture = url + '/db/image/'; /*req.file.filename*/
+      // const notice = req.body.notice;
+      // const tag = req.body.tag;
+      // const facilities = req.body.facilities;
+      // const latitude = req.body.latitude;
+      // const hardness = req.body.hardness;
+      console.log(storeName);
+      console.log(timeId);
       // 위 데이터를 유저 db에 추가하기
       const newStore = await storeService.addStore({
         storeName,
@@ -104,8 +121,7 @@ storeRouter.post(
         introduction,
         openingHours,
         webSite,
-        maxPeopleCount,
-        reservationTime,
+        timeId,
         picture,
         notice,
         tag,
@@ -167,25 +183,43 @@ storeRouter.patch(
       // }
       // params로부터 id를 가져옴
       const storeId = req.params.storeId;
-
+      const {
+        storeName,
+        location,
+        categoryLocation,
+        menu,
+        phoneNumber,
+        introduction,
+        openingHours,
+        timeId,
+        webSite,
+        notice,
+        tag,
+        facilities,
+        latitude,
+        hardness,
+      } = req.body;
       // body data 로부터 업데이트할 사용자 정보를 추출함.
-      const storeName = req.body.storeName;
-      const location = req.body.location;
-      const categoryLocation = req.body.categoryLocation;
-      const menu = req.body.menu;
-      const phoneNumber = req.body.phoneNumber;
-      const introduction = req.body.introduction;
-      const openingHours = req.body.openingHours;
-      const webSite = req.body.webSite;
-      const maxPeopleCount = req.body.maxPeopleCount;
-      const reservationTime = req.body.reservationTime;
-      const notice = req.body.notice;
-      const tag = req.body.tag;
-      const facilities = req.body.facilities;
+      // const storeName = req.body.storeName;
+      // const location = req.body.location;
+      // const categoryLocation = req.body.categoryLocation;
+      // const menu = req.body.menu;
+      // const phoneNumber = req.body.phoneNumber;
+      // const introduction = req.body.introduction;
+      // const openingHours = req.body.openingHours;
+      // const webSite = req.body.webSite;
+      // const timeId = req.body.timeId;
+      // const notice = req.body.notice;
+      // const tag = req.body.tag;
+      // const facilities = req.body.facilities;
       let picture = [];
       for (let i = 0; i < req.files.length; i++) {
         picture.push(req.files[i].location);
       }
+      // let timeIdInput = [];
+      // timeId.forEach(function (item) {
+      //   timeIdInput.push(new ObjectId(item));
+      // });
 
       // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
       // 보내주었다면, 업데이트용 객체에 삽입함.
@@ -198,16 +232,44 @@ storeRouter.patch(
         ...(introduction && { introduction }),
         ...(openingHours && { openingHours }),
         ...(webSite && { webSite }),
-        ...(maxPeopleCount && { maxPeopleCount }),
-        ...(reservationTime && { reservationTime }),
+        ...(timeId && { timeId }),
         ...(picture && { picture }),
         ...(notice && { notice }),
         ...(tag && { tag }),
         ...(facilities && { facilities }),
+        ...(latitude && { latitude }),
+        ...(hardness && { hardness }),
       };
 
       // 사용자 정보를 업데이트함.
       const updatedStoreInfo = await storeService.setStore(storeId, toUpdate);
+
+      // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
+      res.status(200).json(updatedStoreInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// 예약시간 삽입
+storeRouter.patch(
+  '/time/:storeId',
+
+  async function (req, res, next) {
+    try {
+      const storeId = req.params.storeId;
+
+      const { timeId } = req.body;
+
+      // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
+      // 보내주었다면, 업데이트용 객체에 삽입함.
+      const toUpdate = {
+        ...(timeId && { timeId }),
+      };
+      console.log(toUpdate);
+      // 사용자 정보를 업데이트함.
+      const updatedStoreInfo = await storeService.pushTime(storeId, toUpdate);
 
       // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
       res.status(200).json(updatedStoreInfo);
