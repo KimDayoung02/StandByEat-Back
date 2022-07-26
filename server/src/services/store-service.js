@@ -1,71 +1,83 @@
-import { packageModel } from "../db";
+import { storeModel } from '../db';
 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-class PackageService {
+class StoreService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
-  constructor(packageModel) {
-    this.packageModel = packageModel;
+  constructor(storeModel) {
+    this.storeModel = storeModel;
   }
 
   // 패키지 생성
-  async addPackage(packageInfo) {
+  async addStore(storeInfo) {
     // 객체 destructuring
     const {
-      packageName,
-      category,
-      country,
-      price,
-      days,
-      departureAt,
-      arrivalAt,
-      totalNumber,
-      imgUrl,
-      substance,
-    } = packageInfo;
+      storeName,
+      location,
+      categoryLocation,
+      menu,
+      phoneNumber,
+      introduction,
+      openingHours,
+      webSite,
+      maxPeopleCount,
+      reservationTime,
+      picture,
+      notice,
+      tag,
+      facilities,
+      latitude,
+      hardness,
+    } = storeInfo;
 
-    const newPackageInfo = {
-      packageName,
-      category,
-      country,
-      price,
-      days,
-      departureAt,
-      arrivalAt,
-      totalNumber,
-      imgUrl,
-      substance,
+    const newStoreInfo = {
+      storeName,
+      location,
+      categoryLocation,
+      menu,
+      phoneNumber,
+      introduction,
+      openingHours,
+      webSite,
+      maxPeopleCount,
+      reservationTime,
+      picture,
+      notice,
+      tag,
+      facilities,
+      latitude,
+      hardness,
     };
 
     // db에 저장
-    const createdNewPackage = await this.packageModel.create(newPackageInfo);
+    const createdNewStore = await this.storeModel.create(newStoreInfo);
 
-    return createdNewPackage;
+    return createdNewStore;
   }
   // 상품 목록 전체 가져옴
-  async getPackages() {
-    const packages = await this.packageModel.findAll();
-    return packages;
+  async getStores() {
+    const stores = await this.storeModel.findAll();
+    return stores;
   }
   // 상품 Id로 검색
-  async getPackageId(PackageId) {
-    const findPackage = await this.packageModel.findById(PackageId);
+  async getStoreId(StoreId) {
+    const findStore = await this.storeModel.findById(StoreId);
 
-    return findPackage;
+    return findStore;
   }
 
   // 상품 목록 수정
-  async setPackage(packageInfoRequired, toUpdate) {
+  async setStore(storeInfoRequired, toUpdate) {
     // 객체 destructuring
-    const packageId = packageInfoRequired;
+    const storeId = storeInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let packages = await this.packageModel.findById(packageId);
+    let stores = await this.storeModel.findById(storeId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!packages) {
-      throw new Error("상품 내역이 없습니다. 다시 한 번 확인해 주세요.");
+    if (!stores) {
+      throw new Error('상점 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
     // const PackageName = package.packageName;
@@ -78,47 +90,47 @@ class PackageService {
     // const TotalNumber = package.totalNumber;
 
     // 업데이트 진행
-    packages = await this.packageModel.update({
-      packageId,
+    stores = await this.storeModel.update({
+      storeId: storeId,
       update: toUpdate,
     });
 
-    return packages;
+    return stores;
   }
 
-  async setCount(packageInfoRequired, toUpdate) {
+  async setCount(storeInfoRequired, toUpdate) {
     // 객체 destructuring
-    const packageId = packageInfoRequired;
+    const storeId = storeInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let packages = await this.packageModel.findById(packageId);
+    let stores = await this.storeModel.findById(storeId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!packages) {
-      throw new Error("상품 내역이 없습니다. 다시 한 번 확인해 주세요.");
+    if (!stores) {
+      throw new Error('상점 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
     // 이제 드디어 업데이트 시작
     const countNumber = toUpdate;
 
     // 업데이트 진행
-    packages = await this.packageModel.update({
-      packageId,
+    stores = await this.storeModel.update({
+      storeId,
       update: toUpdate,
     });
 
-    return packages;
+    return stores;
   }
 
   // 상품 삭제
-  async DeletePackage(packagedate) {
+  async DeleteStore(storedate) {
     // 객체 destructuring
-    const packageId = packagedate;
+    const storeId = storedate;
 
     // db에 저장
-    const deletePackage = await this.packageModel.delete(packageId);
+    const deleteStore = await this.storeModel.delete(storeId);
 
-    return deletePackage;
+    return deleteStore;
   }
 
   //   // 로그인
@@ -214,6 +226,6 @@ class PackageService {
   //   }
 }
 
-const packageService = new PackageService(packageModel);
+const storeService = new StoreService(storeModel);
 
-export { packageService };
+export { storeService };

@@ -4,43 +4,34 @@ import { UserSchema } from "../schemas/user-schema";
 const User = model("users", UserSchema);
 
 export class UserModel {
-  async findByEmail(email) {
-    const user = await User.findOne({ email });
+  // 회원을 생성한다.(회원가입)
+  async createUserByUserInfo(userInfo) {
+    const user = await User.create(userInfo);
     return user;
   }
 
-  async findById(userId) {
-    const user = await User.findOne({ _id: userId });
+  // 아이디로 회원을 조회한다. (회원조회)
+  async findUserById(id) {
+    const user = await User.findOne({ id });
     return user;
   }
-  async findByPhoneNumber(phone) {
-    const userphone = await User.findOne({ phoneNumber: phone });
-    return userphone;
-  }
-  async findByTelNumber(tel) {
-    const usertel = await User.findOne({ telNumber: tel });
-    return usertel;
-  }
-  async create(userInfo) {
-    const createdNewUser = await User.create(userInfo);
-    return createdNewUser;
+
+  // 회원 정보를 수정한다.(회원정보 수정)
+  async updateUserInfo(id, update) {
+    const user = await User.findOneAndUpdate({ id }, update, { new: true });
+    return user;
   }
 
-  async findAll(query) {
-    const users = await User.find(query);
+  // 회원 정보를 삭제한다.(회원탈퇴)
+  async deleteUserById(id) {
+    const user = await User.deleteOne({ id });
+    return user;
+  }
+
+  // 모든 회원의 정보를 조회한다.(모든 회원 조회)
+  async findAllUsers(filter) {
+    const users = await User.find(filter);
     return users;
-  }
-
-  async update({ userId, update }) {
-    const filter = { _id: userId };
-    const option = { returnOriginal: false };
-
-    const updatedUser = await User.findOneAndUpdate(filter, update, option);
-    return updatedUser;
-  }
-  async delete(userId) {
-    const deleteuser = await User.findByIdAndDelete({ _id: userId });
-    return deleteuser;
   }
 }
 

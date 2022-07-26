@@ -3,15 +3,16 @@ import is from "@sindresorhus/is";
 import {
   loginRequired,
   errorHandler,
+  ownerRequired,
   adminRequired,
   registerCheck,
 } from "../middlewares";
-import { userService } from "../services";
+import { ownerService } from "../services";
 
-const userRouter = Router();
+const ownerRouter = Router();
 
-// 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
-userRouter.post(
+// 회원가입 api (아래는 /register이지만, 실제로는 /owner/register로 요청해야 함.)
+ownerRouter.post(
   "/register",
   registerCheck,
   async (req, res, next) => {
@@ -22,17 +23,15 @@ userRouter.post(
         );
       }
 
-      const { id, pw, name, phoneNumber, nickName, location, birth } = req.body;
+      const { id, pw, name, phoneNumber, location, stores } = req.body;
       const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${id}.svg`;
-
-      const newUser = await userService.addUser({
+      const newUser = await ownerService.addOwner({
         id,
         pw,
         name,
         phoneNumber,
-        nickName,
         location,
-        birth,
+        stores,
         profileImgUrl,
       });
 
@@ -44,8 +43,8 @@ userRouter.post(
   errorHandler
 );
 
-// 로그인 api (아래는 /login 이지만, 실제로는 /api/login로 요청해야 함.)
-userRouter.post(
+// 로그인 api (아래는 /login 이지만, 실제로는 /owner/login로 요청해야 함.)
+ownerRouter.post(
   "/login",
   async function (req, res, next) {
     try {
@@ -57,7 +56,7 @@ userRouter.post(
 
       const { id, pw } = req.body;
 
-      const userToken = await userService.getUserToken({ id, pw });
+      const userToken = await ownerService.getOwnerToken({ id, pw });
 
       res.status(200).json(userToken);
     } catch (error) {
@@ -68,7 +67,7 @@ userRouter.post(
 );
 
 // 사용자 정보 수정
-userRouter.patch(
+ownerRouter.patch(
   "/update/:userId",
   loginRequired,
   async function (req, res, next) {
@@ -84,16 +83,13 @@ userRouter.patch(
       const {
         name,
         phoneNumber,
-        nickName,
         location,
-        birth,
-        gender,
+        stores,
         profileImgUrl,
         pw,
         currentPassword,
       } = req.body;
-
-      if (!currentPassword) {
+      if (!pw) {
         throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
       }
 
@@ -101,16 +97,14 @@ userRouter.patch(
 
       const toUpdate = {
         ...(name && { name }),
-        ...(nickName && { nickName }),
         ...(location && { location }),
         ...(phoneNumber && { phoneNumber }),
-        ...(birth && { birth }),
-        ...(gender && { gender }),
+        ...(stores && { stores }),
         ...(profileImgUrl && { profileImgUrl }),
         ...(pw && { pw }),
       };
 
-      const updatedUserInfo = await userService.setUser(
+      const updatedUserInfo = await ownerService.setOwner(
         userInfoRequired,
         toUpdate
       );
@@ -124,12 +118,12 @@ userRouter.patch(
 );
 
 // 사용자 삭제
-userRouter.delete(
+ownerRouter.delete(
   "/delete",
   async function (req, res, next) {
     try {
-      const { userId, userPassword } = req.body;
-      const deleteuser = await userService.deleteUser(userId, userPassword);
+      const { userId, password } = req.body;
+      const deleteuser = await ownerService.deleteOwner(userId, password);
       res.status(200).json(deleteuser);
     } catch (error) {
       next(error);
@@ -138,13 +132,13 @@ userRouter.delete(
   errorHandler
 );
 
-// 모든 유저 정보를 가져옴
-userRouter.get(
-  "/users",
-  // adminRequired,
+// 업주의 목록을 가져온다.
+ownerRouter.get(
+  "/owners",
+  ownerRequired,
   async function (req, res, next) {
     try {
-      const users = await userService.getUsers(req.query);
+      const users = await ownerService.getOwners(req.query);
       res.status(200).json(users);
     } catch (error) {
       next(error);
@@ -153,14 +147,14 @@ userRouter.get(
   errorHandler
 );
 
-// 유저 한명의 정보를 가져온다.
-userRouter.get(
-  "/:userId",
+// 업주 한명의 정보를 가져온다.
+ownerRouter.get(
+  "/:ownerId",
   loginRequired,
   async function (req, res, next) {
     try {
-      const userId = req.params.userId;
-      const users = await userService.getUser(userId);
+      const ownerId = req.params.ownerId;
+      const users = await ownerService.getOwner(ownerId);
       res.status(200).json(users);
     } catch (error) {
       next(error);
@@ -169,33 +163,4 @@ userRouter.get(
   errorHandler
 );
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// 카카오 회원가입
-userRouter.post("/register/kakao", async (req, res, next) => {
-  try {
-    const email = req.body.email;
-    const nickname = req.body.nickname;
-
-    const newUser = await userService.addUserWithKakao(email, nickname);
-
-    res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
-  }
-});
-// 카카오 로그인
-userRouter.post("/login/kakao", async function (req, res, next) {
-  try {
-    const email = req.body.email;
-
-    const loginResult = await userService.getUserTokenWithKakao(email);
-
-    res.status(200).json(loginResult);
-  } catch (error) {
-    next(error);
-  }
-});
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-export { userRouter };
+export { ownerRouter };

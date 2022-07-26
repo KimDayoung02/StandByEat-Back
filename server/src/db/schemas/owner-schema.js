@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-const UserSchema = new Schema(
+const OwnerSchema = new Schema(
   {
     id: {
       type: String,
@@ -19,28 +19,23 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    nickName: {
-      type: String,
-      required: false,
-    },
     location: {
       type: String,
       required: false,
     },
-    birth: {
-      type: Date,
+    stores: {
+      type: Array,
       required: false,
-      default: "",
     },
-    profileImgUrl: {
+    profileImg: {
       type: String,
       required: false,
     },
   },
   {
-    collection: "users",
+    collection: "owners",
     timestamps: true,
   }
 );
 
-export { UserSchema };
+export { OwnerSchema };
