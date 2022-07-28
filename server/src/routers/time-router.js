@@ -18,16 +18,7 @@ timeRouter.post('/time', async (req, res, next) => {
     }
 
     // req (request)의 body 에서 데이터 가져오기
-    const {
-      storeId,
-      maxNumberOfReservations,
-      year,
-      month,
-      day,
-      hour,
-      min,
-      count,
-    } = req.body;
+    const { storeId, maxNumberOfReservations, date, time, count } = req.body;
 
     if (count > maxNumberOfReservations) {
       throw new Error('예약 가능 인원수가 초과하였습다.');
@@ -37,11 +28,8 @@ timeRouter.post('/time', async (req, res, next) => {
     const newTime = await timeService.addTime({
       storeId,
       maxNumberOfReservations,
-      year,
-      month,
-      day,
-      hour,
-      min,
+      date,
+      time,
       count,
     });
 
@@ -79,16 +67,7 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
     // }
     // params로부터 id를 가져옴
     const timeId = req.params.timeId;
-    const {
-      storeId,
-      maxNumberOfReservations,
-      year,
-      month,
-      day,
-      hour,
-      min,
-      count,
-    } = req.body;
+    const { storeId, maxNumberOfReservations, date, time, count } = req.body;
     if (count > maxNumberOfReservations) {
       throw new Error('예약 가능 인원수가 초과하였습다.');
     }
@@ -102,11 +81,8 @@ timeRouter.patch('/time/:timeId', async function (req, res, next) {
     const toUpdate = {
       ...(storeId && { storeId }),
       ...(maxNumberOfReservations && { maxNumberOfReservations }),
-      ...(year && { year }),
-      ...(month && { month }),
-      ...(day && { day }),
-      ...(hour && { hour }),
-      ...(min && { min }),
+      ...(date && { date }),
+      ...(time && { time }),
       ...(count && { count }),
     };
 

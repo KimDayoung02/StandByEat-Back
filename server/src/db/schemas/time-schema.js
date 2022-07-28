@@ -11,24 +11,12 @@ const TimeSchema = new Schema({
     required: true,
     default: 0,
   },
-  year: {
-    type: Number,
+  date: {
+    type: String,
     required: true,
   },
-  month: {
-    type: Number,
-    required: true,
-  },
-  day: {
-    type: Number,
-    required: true,
-  },
-  hour: {
-    type: Number,
-    required: true,
-  },
-  min: {
-    type: Number,
+  time: {
+    type: String,
     required: true,
   },
   count: {
