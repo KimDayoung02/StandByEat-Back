@@ -86,4 +86,4 @@
 | 정민희 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                   |
 | 진형빈 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                   |
 | 오경찬 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 가게 등록, 예약 시스템, 메뉴 등록, 예약 시간, 이미지 등록, AWS S3 |
-| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         |                                                                   |
+| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         |                   사용자,가게 사장,관리자 관련 기능                                                |
