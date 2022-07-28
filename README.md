@@ -1,10 +1,21 @@
-## 스탠바잇🍽
+![header](https://capsule-render.vercel.app/api?&type=waving&color=gradient&height=300&section=header&text=Stand By Eat&descSize=35&descAlign=67&fontSize=90&fontAlign=50&fontAlignY=45&fontColor=fff&animation=twinkling)
 
-### **서비스 1줄 소개**
+<img src="https://standbyeat.s3.ap-northeast-2.amazonaws.com/store/1658990871007_%ED%85%8C%EC%9D%B4%EB%B8%94%EB%A7%81+%EC%95%84%EC%9D%B4%EC%BD%98.png%7D" width="300">
 
-- 웹을 이용하여 간편하게 식당 예약을 도와주는 서비스입니다.
+# 스탠바잇🍽
 
-<br>
+> 웨이팅 하기 힘드셨다구요? <br />
+> 찾아본 맛집을 예약하고 싶으시다구요? <br />
+> 점주분들이던 손님이던 음식 예약은 <b>스탠바잇<b>에게 맡겨주세요!<br />
+> <br />
+
+## 서비스 소개
+
+> 웹을 이용하여 간편하게 식당 예약을 도와주는 서비스입니다.
+> 점주분께서는 가게 등록을 하시어 손쉽게 예약 대행!
+> 손님께서는 편하게 예약!
+
+<br />
 
 ### **서비스 설명**
 
