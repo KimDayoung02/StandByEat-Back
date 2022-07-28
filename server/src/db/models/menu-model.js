@@ -13,7 +13,7 @@ export class MenuModel {
   }
 
   async findAll(query) {
-    const menus = await Menu.find(query);
+    const menus = await Menu.find(query).populate('storeId', 'storeName');
     return menus;
   }
 
