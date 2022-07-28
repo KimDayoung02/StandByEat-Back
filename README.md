@@ -60,21 +60,25 @@
 
 ### FRONT
 
-<img src="https://img.shields.io/badge/React-#61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
 
 ### BACK
 
-##### 5. 구성원 역할
+<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
+<img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white">
+<img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">
+<img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white">
+<img src="https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=PM2&logoColor=white">
+<img src="https://img.shields.io/badge/AmazonS3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white">
+<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
 
-| 이름   | 역할       | 구현 기능 |
-| ------ | ---------- | --------- |
-| 김다영 | FE- 팀장👍 |           |
-| 정민희 | FE         |           |
-| 배은지 | FE         |           |
-| 진형빈 | FE         |           |
-| 오경찬 | BE         |           |
-| 박태훈 | BE         |           |
+##### 7. 구성원 역할
 
-##### 6. 데이터 설계
-
-[데이터 설계 관련 문서 작성 링크 :](https://docs.google.com/spreadsheets/d/18wSjjrUqZakAKz6wTBfXr6sPJwrnJSJTrbowwTkci1I/edit?usp=sharing)
+| 이름   | 역할                                                                          | 구현 기능                                                         |
+| ------ | ----------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 김다영 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>- 팀장👍 |                                                                   |
+| 정민희 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                   |
+| 진형빈 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                   |
+| 오경찬 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 가게 등록, 예약 시스템, 메뉴 등록, 예약 시간, 이미지 등록, AWS S3 |
+| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         |                                                                   |
