@@ -44,7 +44,7 @@ userRouter.post(
       }
 
       const { id, pw, name, phoneNumber, nickName, location, birth } = req.body;
-      // const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${id}.svg`;
+      const profileImgUrl = `https://avatars.dicebear.com/api/identicon/${id}.svg`;
 
       const newUser = await userService.addUser({
         id,
@@ -54,7 +54,7 @@ userRouter.post(
         nickName,
         location,
         birth,
-        // profileImgUrl,
+        profileImgUrl,
       });
 
       res.status(201).json(newUser);
