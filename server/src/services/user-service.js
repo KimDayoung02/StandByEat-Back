@@ -17,7 +17,7 @@ class UserService {
       nickName,
       location,
       birth,
-      // profileImgUrl,
+      profileImgUrl,
     } = userInfo;
 
     const user = await this.userModel.findUserById(id);
@@ -38,7 +38,7 @@ class UserService {
       nickName,
       location,
       birth,
-      // profileImgUrl,
+      profileImgUrl,
     };
 
     const createdNewUser = await this.userModel.createUserByUserInfo(
