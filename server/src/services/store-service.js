@@ -87,6 +87,26 @@ class StoreService {
     return stores;
   }
   // 시간 추가
+  async pushMenu(storeInfoRequired, toUpdate) {
+    // 객체 destructuring
+    const storeId = storeInfoRequired;
+
+    // 우선 해당 id의 유저가 db에 있는지 확인
+    let stores = await this.storeModel.findById(storeId);
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!stores) {
+      throw new Error('상점 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    // 업데이트 진행
+    stores = await this.storeModel.timeupdate({
+      storeId: storeId,
+      update: toUpdate,
+    });
+
+    return stores;
+  }
   async pushTime(storeInfoRequired, toUpdate) {
     // 객체 destructuring
     const storeId = storeInfoRequired;

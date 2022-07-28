@@ -13,7 +13,6 @@ const MenuSchema = new Schema({
   price: {
     type: Number,
     required: true,
-    default: 0,
   },
   details: {
     type: String,

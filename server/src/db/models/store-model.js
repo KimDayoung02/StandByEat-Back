@@ -40,6 +40,12 @@ export class StoreModel {
     const updatedTime = await Store.findOneAndUpdate(filter, { $push: update });
     return updatedTime;
   }
+  async menuupdate({ storeId, update }) {
+    const filter = { _id: storeId };
+
+    const updatedMenu = await Store.findOneAndUpdate(filter, { $push: update });
+    return updatedMenu;
+  }
 
   async delete(storeId) {
     const deleteStore = await Store.findByIdAndDelete({ _id: storeId });

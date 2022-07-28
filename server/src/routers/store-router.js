@@ -75,7 +75,6 @@ storeRouter.post(
       for (let i = 0; i < req.files.length; i++) {
         picture.push(req.files[i].location);
       }
-      console.log(req.body);
       // req (request)의 body 에서 데이터 가져오기
       const {
         storeName,
@@ -109,8 +108,6 @@ storeRouter.post(
       // const facilities = req.body.facilities;
       // const latitude = req.body.latitude;
       // const hardness = req.body.hardness;
-      console.log(storeName);
-      console.log(timeId);
       // 위 데이터를 유저 db에 추가하기
       const newStore = await storeService.addStore({
         storeName,
@@ -270,6 +267,33 @@ storeRouter.patch(
 
       // 사용자 정보를 업데이트함.
       const updatedStoreInfo = await storeService.pushTime(storeId, toUpdate);
+
+      // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
+      res.status(200).json(updatedStoreInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+//메뉴 삽입
+storeRouter.patch(
+  '/storeMenu/:storeId',
+
+  async function (req, res, next) {
+    try {
+      const storeId = req.params.storeId;
+
+      const { menuId } = req.body;
+
+      // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
+      // 보내주었다면, 업데이트용 객체에 삽입함.
+      const toUpdate = {
+        ...(menuId && { menuId }),
+      };
+
+      // 사용자 정보를 업데이트함.
+      const updatedStoreInfo = await storeService.pushMenu(storeId, toUpdate);
 
       // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
       res.status(200).json(updatedStoreInfo);
