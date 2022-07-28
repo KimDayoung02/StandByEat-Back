@@ -11,7 +11,10 @@ export class OrderModel {
   }
 
   async findAll() {
-    const orders = await Order.find({});
+    const orders = await Order.find({})
+      .populate('userId', 'name')
+      .populate('storeId', 'storeName')
+      .populate('timeId');
     return orders;
   }
   async findById(orderId) {

@@ -12,20 +12,14 @@ class OrderService {
   // 주문 생성
   async addOrder(OrderInfo) {
     // 객체 destructuring
-    const {
-      userId,
-      storeId,
-      numberOfReservations,
-      reservationTime,
-      fee,
-      requirements,
-    } = OrderInfo;
+    const { userId, storeId, numberOfReservations, timeId, fee, requirements } =
+      OrderInfo;
 
     const newOrderInfo = {
       userId,
       storeId,
       numberOfReservations,
-      reservationTime,
+      timeId,
       fee,
       requirements,
     };

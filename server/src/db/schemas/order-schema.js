@@ -15,8 +15,9 @@ const OrderSchema = new Schema({
     type: Number,
     required: true,
   },
-  reservationTime: {
-    type: String,
+  timeId: {
+    type: Schema.Types.ObjectId,
+    ref: 'time',
     required: true,
   },
   fee: {

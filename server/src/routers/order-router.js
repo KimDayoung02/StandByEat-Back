@@ -19,19 +19,16 @@ orderRouter.post('/order', async (req, res, next) => {
     // console.log(req.body);
     // const orderInfo = req.body;
     // req (request)의 body 에서 데이터 가져오기
-    const userId = req.body.userId;
-    const storeId = req.body.storeId;
-    const numberOfReservations = req.body.numberOfReservations;
-    const reservationTime = req.body.reservationTime;
-    const fee = req.body.fee;
-    const requirements = req.body.requirements;
+
+    const { userId, storeId, numberOfReservations, timeId, fee, requirements } =
+      req.body;
 
     // 위 데이터를 유저 db에 추가하기
     const newOrder = await orderService.addOrder({
       userId,
       storeId,
       numberOfReservations,
-      reservationTime,
+      timeId,
       fee,
       requirements,
     });
@@ -87,12 +84,8 @@ orderRouter.patch('/order/:orderId', async function (req, res, next) {
     const orderId = req.params.orderId;
 
     // body data 로부터 업데이트할 사용자 정보를 추출함.
-    const userId = req.body.userId;
-    const storeId = req.body.storeId;
-    const numberOfReservations = req.body.numberOfReservations;
-    const reservationTime = req.body.reservationTime;
-    const fee = req.body.fee;
-    const requirements = req.body.requirements;
+    const { userId, storeId, numberOfReservations, timeId, fee, requirements } =
+      req.body;
 
     // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
     // 보내주었다면, 업데이트용 객체에 삽입함.
@@ -100,7 +93,7 @@ orderRouter.patch('/order/:orderId', async function (req, res, next) {
       ...(userId && { userId }),
       ...(storeId && { storeId }),
       ...(numberOfReservations && { numberOfReservations }),
-      ...(reservationTime && { reservationTime }),
+      ...(timeId && { timeId }),
       ...(fee && { fee }),
       ...(requirements && { requirements }),
     };
