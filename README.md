@@ -49,12 +49,14 @@
 <br />
 <img src="https://standbyeat.s3.ap-northeast-2.amazonaws.com/store/1659005741832_%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%86%E1%85%A1.png%7D" width="700">
 <img src="https://standbyeat.s3.ap-northeast-2.amazonaws.com/store/1659005741822_%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC%E1%84%86%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5.png%7D" width="700">
+<br />
 [Schema Link](https://docs.google.com/spreadsheets/d/18wSjjrUqZakAKz6wTBfXr6sPJwrnJSJTrbowwTkci1I/edit#gid=276855386)
 
 ## 5. API 명세서
 
 <br />
 <img src="https://standbyeat.s3.ap-northeast-2.amazonaws.com/store/1659005741848_%E1%84%91%E1%85%A9%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%E1%84%86%E1%85%A2%E1%86%AB.png%7D" width="700">
+<br />
 [Postman Link](https://documenter.getpostman.com/view/20983410/UzQyrivc)
 
 ## 6. 스택
