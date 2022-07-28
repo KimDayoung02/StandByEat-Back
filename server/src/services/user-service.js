@@ -17,7 +17,7 @@ class UserService {
       nickName,
       location,
       birth,
-      profileImgUrl,
+      // profileImgUrl,
     } = userInfo;
 
     const user = await this.userModel.findUserById(id);
@@ -38,7 +38,7 @@ class UserService {
       nickName,
       location,
       birth,
-      profileImgUrl,
+      // profileImgUrl,
     };
 
     const createdNewUser = await this.userModel.createUserByUserInfo(
@@ -123,6 +123,20 @@ class UserService {
       );
     }
 
+    // db에 저장
+    const deleteUser = await this.userModel.deleteUserById(userId);
+
+    return deleteUser;
+  }
+
+  // 관리자 권한으로 유저 삭제
+  async deleteUserByAdmin(_id) {
+    let user = await this.userModel.findUserByOId(_id);
+
+    if (!user) {
+      throw new Error("이미 없는 사용자 입니다.");
+    }
+    const userId = user.id;
     // db에 저장
     const deleteUser = await this.userModel.deleteUserById(userId);
 

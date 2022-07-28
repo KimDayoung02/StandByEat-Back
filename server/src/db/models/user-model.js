@@ -16,6 +16,12 @@ export class UserModel {
     return user;
   }
 
+  // 아이디로 회원을 조회한다. (Obj로 회원조회)
+  async findUserByOId(_id) {
+    const user = await User.findOne({ _id });
+    return user;
+  }
+
   // 회원 정보를 수정한다.(회원정보 수정)
   async updateUserInfo(id, update) {
     const user = await User.findOneAndUpdate({ id }, update, { new: true });
