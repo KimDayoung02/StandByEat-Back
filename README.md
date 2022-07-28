@@ -1,4 +1,4 @@
-## **테이블링 예약 시스템**
+## 스탠바잇🍽
 
 ### **서비스 1줄 소개**
 
@@ -57,4 +57,5 @@
 | 박태훈 | BE         |           |
 
 ##### 6. 데이터 설계
+
 [데이터 설계 관련 문서 작성 링크 :](https://docs.google.com/spreadsheets/d/18wSjjrUqZakAKz6wTBfXr6sPJwrnJSJTrbowwTkci1I/edit?usp=sharing)
