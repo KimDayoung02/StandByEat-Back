@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?&type=waving&color=gradient&height=300&section=header&text=Stand By Eat&descSize=35&descAlign=67&fontSize=90&fontAlign=50&fontAlignY=45&fontColor=fff&animation=twinkling)
+![header](https://capsule-render.vercel.app/api?&type=waving&color=gradient&height=300&section=header&text=Stand_By_Eat&descSize=35&descAlign=67&fontSize=90&fontAlign=50&fontAlignY=45&fontColor=fff&animation=twinkling)
 
 <img src="https://standbyeat.s3.ap-northeast-2.amazonaws.com/store/1658990871007_%ED%85%8C%EC%9D%B4%EB%B8%94%EB%A7%81+%EC%95%84%EC%9D%B4%EC%BD%98.png%7D" width="300">
 
@@ -6,8 +6,7 @@
 
 > 웨이팅 하기 힘드셨다구요? <br />
 > 찾아본 맛집을 예약하고 싶으시다구요? <br />
-> 점주분들이던 손님이던 음식 예약은 <b>스탠바잇<b>에게 맡겨주세요!<br />
-> <br />
+> 점주분들이던 손님이던 음식 예약은 <b>스탠바잇<b>에게 맡겨주세요!<br /> > <br />
 
 ## 서비스 소개
 
