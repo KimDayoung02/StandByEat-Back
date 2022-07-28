@@ -18,7 +18,7 @@ export class StoreModel {
   }
 
   async findAll() {
-    const stores = await Store.find({});
+    const stores = await Store.find({}).populate('timeId').populate('menuId');
     return stores;
   }
   async findById(storeId) {
