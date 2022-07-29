@@ -11,7 +11,9 @@ export class OrderModel {
   }
 
   async findAllByUserId(userId) {
-    const orders = await Order.find({ userId: userId });
+    const orders = await Order.find({ userId: userId })
+      .populate("storeId", "storeName")
+      .populate("userId", "name");
     return orders;
   }
 
@@ -23,8 +25,7 @@ export class OrderModel {
   async findAll() {
     const orders = await Order.find({})
       .populate("userId", "name")
-      .populate("storeId", "storeName")
-      .populate("timeId");
+      .populate("storeId", "storeName");
     return orders;
   }
 
