@@ -66,6 +66,8 @@
 ### FRONT
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=CSS&logoColor=white">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
 
 ### BACK
 
@@ -80,10 +82,10 @@
 
 ##### 7. 구성원 역할
 
-| 이름   | 역할                                                                          | 구현 기능                                                         |
-| ------ | ----------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 김다영 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>- 팀장👍 |                                                                   |
-| 정민희 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                   |
-| 진형빈 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                   |
-| 오경찬 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 가게 등록, 예약 시스템, 메뉴 등록, 예약 시간, 이미지 등록, AWS S3 |
-| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         |                   사용자,가게 사장,관리자 관련 기능                                                |
+| 이름   | 역할                                                                          | 구현 기능                                                            |
+| ------ | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 김다영 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>- 팀장👍 | 로고, 아이콘 디자인 및 홈 화면, 식당 리스트 구현, 식당 예약정보 등록 |
+| 정민희 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                      |
+| 진형빈 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                      |
+| 오경찬 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 가게 등록, 예약 시스템, 메뉴 등록, 예약 시간, 이미지 등록, AWS S3    |
+| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 사용자,가게 사장,관리자 관련 기능                                    |
