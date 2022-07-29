@@ -103,6 +103,7 @@ userRouter.patch(
 
       const userId = req.params.userId;
       const profileImgUrl = req.file?.location;
+      console.log("userId:" + userId + ", img : " + profileImgUrl);
 
       const { name, phoneNumber, nickName, location, birth, gender, pw } =
         req.body;

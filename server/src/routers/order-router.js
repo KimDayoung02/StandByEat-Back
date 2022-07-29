@@ -1,19 +1,20 @@
-import { Router } from 'express';
-import is from '@sindresorhus/is';
+import { Router } from "express";
+import is from "@sindresorhus/is";
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
-import { loginRequired } from '../middlewares';
-import { orderService } from '../services';
+import { loginRequired } from "../middlewares";
+import { orderService } from "../services";
+import { storeService } from "../services";
 
 const orderRouter = Router();
 
 // 주문등록 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
-orderRouter.post('/order', async (req, res, next) => {
+orderRouter.post("/order", async (req, res, next) => {
   try {
     // Content-Type: application/json 설정을 안 한 경우, 에러를 만들도록 함.
     // application/json 설정을 프론트에서 안 하면, body가 비어 있게 됨.
     if (is.emptyObject(req.body)) {
       throw new Error(
-        'headers의 Content-Type을 application/json으로 설정해주세요'
+        "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
     // console.log(req.body);
@@ -42,7 +43,7 @@ orderRouter.post('/order', async (req, res, next) => {
 });
 
 // 전체 주문 목록을 가져옴 (배열 형태임)
-orderRouter.get('/orders', async function (req, res, next) {
+orderRouter.get("/orders", async function (req, res, next) {
   try {
     // 전체 주문 목록을 얻음
     const orders = await orderService.getOrders();
@@ -55,7 +56,7 @@ orderRouter.get('/orders', async function (req, res, next) {
 });
 
 //주문 ID로 정보가져오기
-orderRouter.get('/order/:orderId', async function (req, res, next) {
+orderRouter.get("/order/:orderId", async function (req, res, next) {
   try {
     // 전체 사용자 목록을 얻음
     const orderId = req.params.orderId;
@@ -71,13 +72,13 @@ orderRouter.get('/order/:orderId', async function (req, res, next) {
 
 // 주문 정보 수정
 // (예를 들어 /api/store/abc12345 로 요청하면 req.params.storeId는 'abc12345' 문자열로 됨)
-orderRouter.patch('/order/:orderId', async function (req, res, next) {
+orderRouter.patch("/order/:orderId", async function (req, res, next) {
   try {
     // content-type 을 application/json 로 프론트에서
     // 설정 안 하고 요청하면, body가 비어 있게 됨.
     if (is.emptyObject(req.body)) {
       throw new Error(
-        'headers의 Content-Type을 application/json으로 설정해주세요'
+        "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
     // params로부터 id를 가져옴
@@ -109,13 +110,46 @@ orderRouter.patch('/order/:orderId', async function (req, res, next) {
 });
 
 // 선택 상품 삭제
-orderRouter.delete('/order/:orderId', async function (req, res, next) {
+orderRouter.delete("/order/:orderId", async function (req, res, next) {
   try {
     // 상품 Id 얻음
     const orderId = req.params.orderId;
     const deleteorder = await orderService.DeleteOrder(orderId);
     // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
     res.status(200).json(deleteorder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 주문 생성(유저오브젝트 아이디, 스토어 오브젝트 아이디, 예약날짜,예약시간,예약인원)
+orderRouter.post("/newOrder", async function (req, res, next) {
+  try {
+    console.log(req.body);
+    const { userId, storeId, date, time, count } = req.body;
+    console.log(date);
+    const newOrder = await orderService.addOrderByNewInfo({
+      userId,
+      storeId,
+      date,
+      time,
+      count,
+    });
+    res.status(201).json(newOrder);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// 내 예약 정보 보기
+orderRouter.get("/neworders/:userId", async function (req, res, next) {
+  try {
+    // 전체 사용자 목록을 얻음
+    const userId = req.params.userId;
+    const newOrders = await orderService.getOrdersByUserId(userId);
+
+    // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
+    res.status(200).json(newOrders);
   } catch (error) {
     next(error);
   }
