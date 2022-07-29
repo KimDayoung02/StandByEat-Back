@@ -42,6 +42,11 @@ const OrderSchema = new Schema({
     required: true,
     default: 0,
   },
+  timeId: {
+    type: Schema.Types.ObjectId,
+    ref: "time",
+    required: true,
+  },
 });
 
 export { OrderSchema };
