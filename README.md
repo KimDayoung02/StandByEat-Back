@@ -82,10 +82,10 @@
 
 ##### 7. 구성원 역할
 
-| 이름   | 역할                                                                          | 구현 기능                                                            |
-| ------ | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| 김다영 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>- 팀장👍 | 로고, 아이콘 디자인 및 홈 화면, 식당 리스트 구현, 식당 예약정보 등록 |
-| 정민희 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                      |
-| 진형빈 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                      |
-| 오경찬 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 가게 등록, 예약 시스템, 메뉴 등록, 예약 시간, 이미지 등록, AWS S3    |
-| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 사용자,가게 사장,관리자 관련 기능                                    |
+| 이름   | 역할                                                                          | 구현 기능                                                                     |
+| ------ | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 김다영 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>- 팀장👍 | 로고, 아이콘 디자인 및 홈 화면, 식당 리스트 구현, 식당 예약정보 등록          |
+| 정민희 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         | 로그인 관련 기능, 마이페이지 유저 관련 프로필, 지역별 필터기능, 카카오맵 사용 |
+| 진형빈 | <img src="https://img.shields.io/badge/FE-FECC00?style=flat-square"/>         |                                                                               |
+| 오경찬 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 가게 등록, 예약 시스템, 메뉴 등록, 예약 시간, 이미지 등록, AWS S3 등 기능     |
+| 박태훈 | <img src="https://img.shields.io/badge/BE-00A1E9?style=flat-square"/>         | 사용자,가게 사장,관리자 관련 기능                                             |
