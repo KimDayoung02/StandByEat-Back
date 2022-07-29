@@ -72,9 +72,12 @@ storeRouter.post(
       //array로 사진 저장
 
       let picture = [];
-      for (let i = 0; i < req.files.length; i++) {
-        picture.push(req.files[i].location);
+      if (req.files?.length) {
+        for (let i = 0; i < req.files.length; i++) {
+          picture.push(req.files[i].location);
+        }
       }
+      picture = req.body.picture;
       // req (request)의 body 에서 데이터 가져오기
       const {
         storeName,
