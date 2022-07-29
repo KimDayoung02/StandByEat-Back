@@ -88,7 +88,11 @@ menuRouter.patch(
       // params로부터 id를 가져옴
       const menuId = req.params.menuId;
       const { storeId, menuName, price, details } = req.body;
-      const picture = req.file.location;
+      let picture = [];
+      if (req.file?.location) {
+        picture = req.file.location;
+      }
+      picture = req.body.picture;
 
       // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
       // 보내주었다면, 업데이트용 객체에 삽입함.
