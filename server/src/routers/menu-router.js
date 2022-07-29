@@ -35,8 +35,11 @@ menuRouter.post('/menu', upload.single('picture'), async (req, res, next) => {
 
     // req (request)의 body 에서 데이터 가져오기
     const { storeId, menuName, price, details } = req.body;
-
-    const picture = req.file?.location;
+    let picture = [];
+    if (req.file?.location) {
+      picture = req.file.location;
+    }
+    picture = req.body.picture;
 
     // 위 데이터를 유저 db에 추가하기
     const newMenu = await menuService.addMenu({
