@@ -45,7 +45,7 @@ const OrderSchema = new Schema({
   timeId: {
     type: Schema.Types.ObjectId,
     ref: "time",
-    required: true,
+    required: false,
   },
 });
 
