@@ -82,7 +82,7 @@
 <img src="https://img.shields.io/badge/AmazonS3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white">
 <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
 
-##### 7. 구성원 역할
+## 7. 구성원 역할
 
 | 이름   | 역할                                                                          | 구현 기능                                                                     |
 | ------ | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
