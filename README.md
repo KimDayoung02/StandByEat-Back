@@ -27,7 +27,7 @@
 - 메인 기능
   - owner는 본인의 식당을 등록하고 위치, 메뉴 등을 입력한다.
   - user가 예약하고 싶은 날짜와 시간, 인원, 지역을 정해 예약가능한 식당을 보여준다.
-  - user는 예약한 식당의 지도를 확인하고 카카오톡으로 예약완료 알림을 받는다.
+  - user는 예약한 식당의 지도를 확인하고 카카오톡으로 예약완료 알림을 받는다.(사업자 등록증 및 금액 이슈로 카카오 알림톡 사용제한)
 - 서브 기능
   - 로그인/회원가입
   - 맛집 목록
@@ -68,6 +68,8 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
 <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=CSS&logoColor=white">
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
+<img src="https://img.shields.io/badge/styled-components-#DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+<img src="https://img.shields.io/badge/FontAwesome-##528DD7?style=for-the-badge&logo=FontAwesome&logoColor=white">
 
 ### BACK
 
