@@ -1,10 +1,10 @@
-import { model } from "mongoose";
-const mongoose = require("mongoose");
-import { StoreSchema } from "../schemas/store-schema";
+import { model } from 'mongoose';
+const mongoose = require('mongoose');
+import { StoreSchema } from '../schemas/store-schema';
 // import { ObjectId } from 'mongoose';
 // import { ObjectId } from '..db';
 
-const Store = model("store", StoreSchema);
+const Store = model('store', StoreSchema);
 
 export class StoreModel {
   async findByStoreName(storeName) {
@@ -18,11 +18,13 @@ export class StoreModel {
   }
 
   async findAll() {
-    const stores = await Store.find({});
+    const stores = await Store.find({}).populate('timeId').populate('menuId');
     return stores;
   }
   async findById(storeId) {
-    const findstore = await Store.findOne({ _id: storeId });
+    const findstore = await Store.findOne({ _id: storeId })
+      .populate('timeId')
+      .populate('menuId');
     return findstore;
   }
 
@@ -31,6 +33,18 @@ export class StoreModel {
 
     const updatedStore = await Store.findOneAndUpdate(filter, update);
     return updatedStore;
+  }
+  async timeupdate({ storeId, update }) {
+    const filter = { _id: storeId };
+
+    const updatedTime = await Store.findOneAndUpdate(filter, { $push: update });
+    return updatedTime;
+  }
+  async menuupdate({ storeId, update }) {
+    const filter = { _id: storeId };
+
+    const updatedMenu = await Store.findOneAndUpdate(filter, { $push: update });
+    return updatedMenu;
   }
 
   async delete(storeId) {

@@ -76,31 +76,12 @@ class UserService {
 
   // 유저정보 수정하기, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
-    const { userId, currentPassword } = userInfoRequired;
+    const { userId } = userInfoRequired;
 
     let user = await this.userModel.findUserById(userId);
 
     if (!user) {
       throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
-    }
-
-    const correctPasswordHash = user.pw;
-    const isPasswordCorrect = await bcrypt.compare(
-      currentPassword,
-      correctPasswordHash
-    );
-
-    if (!isPasswordCorrect) {
-      throw new Error(
-        "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-      );
-    }
-
-    const { pw } = toUpdate;
-
-    if (pw) {
-      const newPasswordHash = await bcrypt.hash(pw, 10);
-      toUpdate.pw = newPasswordHash;
     }
 
     user = await this.userModel.updateUserInfo(userId, toUpdate);
@@ -123,6 +104,20 @@ class UserService {
       );
     }
 
+    // db에 저장
+    const deleteUser = await this.userModel.deleteUserById(userId);
+
+    return deleteUser;
+  }
+
+  // 관리자 권한으로 유저 삭제
+  async deleteUserByAdmin(_id) {
+    let user = await this.userModel.findUserByOId(_id);
+
+    if (!user) {
+      throw new Error("이미 없는 사용자 입니다.");
+    }
+    const userId = user.id;
     // db에 저장
     const deleteUser = await this.userModel.deleteUserById(userId);
 

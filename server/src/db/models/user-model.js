@@ -1,7 +1,7 @@
-import { model } from "mongoose";
-import { UserSchema } from "../schemas/user-schema";
+import { model } from 'mongoose';
+import { UserSchema } from '../schemas/user-schema';
 
-const User = model("users", UserSchema);
+const User = model('users', UserSchema);
 
 export class UserModel {
   // 회원을 생성한다.(회원가입)
@@ -13,6 +13,12 @@ export class UserModel {
   // 아이디로 회원을 조회한다. (회원조회)
   async findUserById(id) {
     const user = await User.findOne({ id });
+    return user;
+  }
+
+  // 아이디로 회원을 조회한다. (Obj로 회원조회)
+  async findUserByOId(_id) {
+    const user = await User.findOne({ _id });
     return user;
   }
 

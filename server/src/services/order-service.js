@@ -1,7 +1,7 @@
-import { orderModel } from '../db';
+import { orderModel } from "../db";
 
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 class OrderService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
@@ -12,20 +12,14 @@ class OrderService {
   // 주문 생성
   async addOrder(OrderInfo) {
     // 객체 destructuring
-    const {
-      userId,
-      storeId,
-      numberOfReservations,
-      reservationTime,
-      fee,
-      requirements,
-    } = OrderInfo;
+    const { userId, storeId, numberOfReservations, timeId, fee, requirements } =
+      OrderInfo;
 
     const newOrderInfo = {
       userId,
       storeId,
       numberOfReservations,
-      reservationTime,
+      timeId,
       fee,
       requirements,
     };
@@ -57,7 +51,7 @@ class OrderService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!orders) {
-      throw new Error('주문 내역이 없습니다. 다시 한 번 확인해 주세요.');
+      throw new Error("주문 내역이 없습니다. 다시 한 번 확인해 주세요.");
     }
 
     // 업데이트 진행
@@ -78,6 +72,18 @@ class OrderService {
     const deleteOrder = await this.orderModel.delete(orderId);
 
     return deleteOrder;
+  }
+
+  async addOrderByNewInfo(orderInfo) {
+    const createdNewOrder = await this.orderModel.createOrderByNewInfo(
+      orderInfo
+    );
+    return createdNewOrder;
+  }
+
+  async getOrdersByUserId(userId) {
+    const newOrders = await this.orderModel.findAllByUserId(userId);
+    return newOrders;
   }
 }
 

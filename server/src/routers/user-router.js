@@ -7,8 +7,29 @@ import {
   registerCheck,
 } from "../middlewares";
 import { userService } from "../services";
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
 
 const userRouter = Router();
+
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_S3_REGION,
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "standbyeat", // 버킷 이름 입력
+    acl: "public-read",
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    key: (req, file, cb) => {
+      cb(null, `user/${Date.now()}_${file.originalname}}`);
+    },
+  }),
+});
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post(
@@ -71,6 +92,7 @@ userRouter.post(
 userRouter.patch(
   "/update/:userId",
   loginRequired,
+  upload.single("profileImgUrl"),
   async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
@@ -80,24 +102,13 @@ userRouter.patch(
       }
 
       const userId = req.params.userId;
+      const profileImgUrl = req.file?.location;
+      console.log("userId:" + userId + ", img : " + profileImgUrl);
 
-      const {
-        name,
-        phoneNumber,
-        nickName,
-        location,
-        birth,
-        gender,
-        profileImgUrl,
-        pw,
-        currentPassword,
-      } = req.body;
+      const { name, phoneNumber, nickName, location, birth, gender, pw } =
+        req.body;
 
-      if (!currentPassword) {
-        throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
-      }
-
-      const userInfoRequired = { userId, currentPassword };
+      const userInfoRequired = { userId };
 
       const toUpdate = {
         ...(name && { name }),
@@ -161,6 +172,22 @@ userRouter.get(
     try {
       const userId = req.params.userId;
       const users = await userService.getUser(userId);
+      res.status(200).json(users);
+    } catch (error) {
+      next(error);
+    }
+  },
+  errorHandler
+);
+
+// 유저 한명의 정보를 가져온다.
+userRouter.delete(
+  "/delete/:userObi",
+  adminRequired,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.userObi;
+      const users = await userService.deleteUserByAdmin(_id);
       res.status(200).json(users);
     } catch (error) {
       next(error);
